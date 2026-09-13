@@ -4,6 +4,69 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ---------------------------------------------------------------------------
+   Brand palette — raw scales.
+   Generates utilities like `bg-deep-space-blue`, `text-flag-red-700`,
+   `border-sunflower-gold-300`. `static` guarantees every var is emitted so
+   the semantic tokens below can reference them.
+--------------------------------------------------------------------------- */
+@theme static {
+  --color-deep-space-blue: #003049;
+  --color-deep-space-blue-100: #00090e;
+  --color-deep-space-blue-200: #00131d;
+  --color-deep-space-blue-300: #001c2b;
+  --color-deep-space-blue-400: #002539;
+  --color-deep-space-blue-500: #003049;
+  --color-deep-space-blue-600: #00679f;
+  --color-deep-space-blue-700: #00a0f7;
+  --color-deep-space-blue-800: #50c2ff;
+  --color-deep-space-blue-900: #a7e0ff;
+
+  --color-flag-red: #d62828;
+  --color-flag-red-100: #2b0808;
+  --color-flag-red-200: #561010;
+  --color-flag-red-300: #811818;
+  --color-flag-red-400: #ac2020;
+  --color-flag-red-500: #d62828;
+  --color-flag-red-600: #df5353;
+  --color-flag-red-700: #e77e7e;
+  --color-flag-red-800: #efa9a9;
+  --color-flag-red-900: #f7d4d4;
+
+  --color-vivid-tangerine: #f77f00;
+  --color-vivid-tangerine-100: #311900;
+  --color-vivid-tangerine-200: #623300;
+  --color-vivid-tangerine-300: #934c00;
+  --color-vivid-tangerine-400: #c46500;
+  --color-vivid-tangerine-500: #f77f00;
+  --color-vivid-tangerine-600: #ff982b;
+  --color-vivid-tangerine-700: #ffb260;
+  --color-vivid-tangerine-800: #ffcc95;
+  --color-vivid-tangerine-900: #ffe5ca;
+
+  --color-sunflower-gold: #fcbf49;
+  --color-sunflower-gold-100: #402b01;
+  --color-sunflower-gold-200: #815602;
+  --color-sunflower-gold-300: #c18203;
+  --color-sunflower-gold-400: #fbab0a;
+  --color-sunflower-gold-500: #fcbf49;
+  --color-sunflower-gold-600: #fdcd6e;
+  --color-sunflower-gold-700: #fdda92;
+  --color-sunflower-gold-800: #fee6b7;
+  --color-sunflower-gold-900: #fef3db;
+
+  --color-vanilla-custard: #eae2b7;
+  --color-vanilla-custard-100: #413a13;
+  --color-vanilla-custard-200: #827426;
+  --color-vanilla-custard-300: #c2ae38;
+  --color-vanilla-custard-400: #d8c977;
+  --color-vanilla-custard-500: #eae2b7;
+  --color-vanilla-custard-600: #eee8c6;
+  --color-vanilla-custard-700: #f3eed4;
+  --color-vanilla-custard-800: #f7f4e3;
+  --color-vanilla-custard-900: #fbf9f1;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -48,73 +111,95 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ---------------------------------------------------------------------------
+   Semantic tokens — brand palette mapped onto shadcn's roles.
+   Tangerine = action, navy = structure/text, vanilla + gold = warm neutrals,
+   flag red = destructive. Contrast ratios noted where they matter.
+--------------------------------------------------------------------------- */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.55 0.18 45); /* ember accent */
-  --primary-foreground: oklch(0.99 0 0); /* near-white text on ember */
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.55 0.18 45); /* focus ring matches ember */
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --background: #ffffff;
+  --foreground: var(--color-deep-space-blue-400); /* navy ink, 12.9:1 on white */
+  --card: #ffffff;
+  --card-foreground: var(--color-deep-space-blue-400);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-deep-space-blue-400);
+
+  --primary: var(--color-vivid-tangerine); /* CTA orange */
+  --primary-foreground: var(--color-deep-space-blue-400); /* 6.0:1 on tangerine */
+
+  --secondary: var(--color-vanilla-custard); /* warm sand, low-emphasis surface */
+  --secondary-foreground: var(--color-deep-space-blue-400); /* 12.1:1 */
+
+  --muted: var(--color-vanilla-custard-800);
+  --muted-foreground: #4c6e80; /* deep-space-blue 70% on white, 5.5:1 */
+
+  --accent: var(--color-sunflower-gold-900); /* hover/highlight surface */
+  --accent-foreground: var(--color-deep-space-blue-400);
+
+  --destructive: var(--color-flag-red); /* 5.0:1 on white */
+
+  --border: #d9e0e4; /* deep-space-blue 15% on white */
+  --input: #d9e0e4;
+  --ring: var(--color-vivid-tangerine);
+
+  --chart-1: var(--color-deep-space-blue);
+  --chart-2: var(--color-vivid-tangerine);
+  --chart-3: var(--color-sunflower-gold);
+  --chart-4: var(--color-flag-red);
+  --chart-5: var(--color-deep-space-blue-600);
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --sidebar: var(--color-deep-space-blue);
+  --sidebar-foreground: var(--color-vanilla-custard-900);
+  --sidebar-primary: var(--color-vivid-tangerine);
+  --sidebar-primary-foreground: var(--color-deep-space-blue-400);
+  --sidebar-accent: var(--color-deep-space-blue-400);
+  --sidebar-accent-foreground: var(--color-sunflower-gold-900);
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: var(--color-sunflower-gold);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--color-deep-space-blue-200);
+  --foreground: var(--color-vanilla-custard-800); /* warm off-white, 16.2:1 */
+  --card: var(--color-deep-space-blue-300);
+  --card-foreground: var(--color-vanilla-custard-800);
+  --popover: var(--color-deep-space-blue-300);
+  --popover-foreground: var(--color-vanilla-custard-800);
+
+  --primary: var(--color-vivid-tangerine-600); /* lifted for dark surfaces */
+  --primary-foreground: var(--color-vivid-tangerine-100); /* 7.7:1 */
+
+  --secondary: var(--color-deep-space-blue-400);
+  --secondary-foreground: var(--color-vanilla-custard-800); /* 14.4:1 */
+
+  --muted: var(--color-deep-space-blue-400);
+  --muted-foreground: #6da2bf; /* 6.8:1 on background */
+
+  --accent: var(--color-deep-space-blue);
+  --accent-foreground: var(--color-sunflower-gold-900);
+
+  --destructive: var(--color-flag-red-600);
+
+  --border: #ffffff1a;
+  --input: #ffffff26;
+  --ring: var(--color-vivid-tangerine-600);
+
+  --chart-1: var(--color-deep-space-blue-700);
+  --chart-2: var(--color-vivid-tangerine-600);
+  --chart-3: var(--color-sunflower-gold);
+  --chart-4: var(--color-flag-red-600);
+  --chart-5: var(--color-vanilla-custard);
+
+  --sidebar: var(--color-deep-space-blue-300);
+  --sidebar-foreground: var(--color-vanilla-custard-800);
+  --sidebar-primary: var(--color-vivid-tangerine-600);
+  --sidebar-primary-foreground: var(--color-vivid-tangerine-100);
+  --sidebar-accent: var(--color-deep-space-blue);
+  --sidebar-accent-foreground: var(--color-sunflower-gold-900);
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: var(--color-sunflower-gold);
 }
 
 @layer base {
