@@ -8,6 +8,16 @@ export function cldUrl(publicId: string, transforms = "f_auto,q_auto") {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
 }
 
+export function cldVideoUrl(publicId: string, transforms: string, ext = "mp4") {
+  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${transforms}/${publicId}.${ext}`;
+}
+
+// Hero background: 52s, muted. The 1280px H.264 version is pre-generated on upload (~4.7MB vs 30MB).
+export const HERO_VIDEO = {
+  src: cldVideoUrl("site/hero-video", "w_1280,q_auto,vc_h264,ac_none"),
+  poster: cldVideoUrl("site/hero-video", "so_0,w_1600,q_auto,f_auto", "jpg"),
+};
+
 // Public IDs of photos used on the site.
 export const PHOTOS = {
   beforeShiplap: "7757083843514528746_bzhyjo",

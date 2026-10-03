@@ -3,7 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 
 import { buttonVariants } from "@/components/ui/button";
-import { cldUrl, PHOTOS } from "@/lib/cloudinary";
+import { HERO_VIDEO } from "@/lib/cloudinary";
 import { SITE, yearsInTrade } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -14,8 +14,8 @@ export default function HeroVideo() {
           The poster shows while the file buffers and for reduced-motion users. */}
       <div className="absolute inset-0 z-0 bg-deep-space-blue">
         <video
-          src="/hero-video.mp4"
-          poster={cldUrl(PHOTOS.afterShiplap, "f_auto,q_auto,w_1600,c_fill,ar_16:9")}
+          src={HERO_VIDEO.src}
+          poster={HERO_VIDEO.poster}
           autoPlay
           muted
           loop
