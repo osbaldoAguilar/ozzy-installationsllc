@@ -18,4 +18,9 @@ export const PHOTOS = {
   whiteMantelNewBuild: "IMG_5983_qsjml9",
   insertInstall: "IMG_8884_fgzutf",
   linearElectric: "IMG_5868_bsj9em",
+  recessedLinear: "IMG_6360_pafhwj",
+  stoneChaseCover: "IMG_7479_sdjngo",
+  brickStainlessCap: "IMG_4714_lsj6xg",
+  sidedChase: "IMG_4403_nhfdsc",
+  shiplapInProgress: "IMG_7552_oi14mv",
 } as const;
