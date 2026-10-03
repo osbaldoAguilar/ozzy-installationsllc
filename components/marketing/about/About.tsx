@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import CloudinaryImage from "@/components/CloudinaryImage";
 import SectionHeading from "@/components/marketing/SectionHeading";
 import { PHOTOS } from "@/lib/cloudinary";
@@ -33,6 +35,12 @@ export default function About() {
             just one brand. Today it&apos;s still family-owned and family-run, and every job
             carries {SITE.owner}&apos;s name.
           </p>
+          <Link
+            href="/about"
+            className="inline-flex min-h-11 items-center self-start border-b-2 border-vivid-tangerine font-semibold"
+          >
+            Our story
+          </Link>
         </div>
       </div>
     </section>
