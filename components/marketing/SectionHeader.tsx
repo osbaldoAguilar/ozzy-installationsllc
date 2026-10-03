@@ -1,37 +1,47 @@
+import Image from "next/image";
 import Link from "next/link";
 
-
-const NAV = [
-  { href: "/services", label: "Services" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/about", label: "About" },
-] as const;
-
+import { buttonVariants } from "@/components/ui/button";
+import MobileMenu from "@/components/marketing/MobileMenu";
+import { NAV } from "@/lib/nav";
+import { SITE } from "@/lib/site";
+import { cn } from "@/lib/utils";
+import logoNavy from "@/public/brand/logo-navy.png";
 
 export default function SectionHeader() {
   return (
-    <header className="border-b border-border">
-      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-6">
-        <Link href="/" className="font-heading text-lg font-semibold">
-          Ozzy Installations
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center gap-2 pr-3 pl-4 md:h-18 md:gap-8 md:px-6">
+        <Link
+          href="/"
+          className="mr-auto flex items-center gap-2.5 font-heading text-lg font-semibold md:text-xl"
+        >
+          <Image src={logoNavy} alt="" className="h-10 w-auto md:h-12" preload />
+          {SITE.name}
         </Link>
-        <div className="ml-auto flex items-center gap-6 text-sm">
+
+        <div className="hidden items-center gap-7 text-[15px] lg:flex">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
             </Link>
           ))}
+          <a href={SITE.phone.href} className="font-semibold">
+            {SITE.phone.display}
+          </a>
           <Link
             href="/contact"
-            className="rounded-4xl bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/80"
+            className={cn(buttonVariants(), "h-11 px-5 text-[15px] font-semibold")}
           >
-            Get a Quote
+            Get an Estimate
           </Link>
         </div>
+
+        <MobileMenu />
       </nav>
     </header>
   );
