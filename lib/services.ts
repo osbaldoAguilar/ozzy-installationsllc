@@ -50,3 +50,11 @@ export const SERVICE_TYPES = Object.keys(SERVICE_CATEGORIES) as ServiceType[];
 export const SERVICE_SUBTYPES = Object.values(SERVICE_CATEGORIES).flatMap(
   (c) => (c.subtypes ? Object.keys(c.subtypes) : []),
 ) as ServiceSubtype[];
+
+export type InstallationType = (typeof installationType)[keyof typeof installationType];
+
+export const INSTALLATION_TYPE_LABELS: Record<InstallationType, string> = {
+  new_construction: "New construction",
+  remodel: "Remodel",
+  commercial_construction: "Commercial construction",
+};
