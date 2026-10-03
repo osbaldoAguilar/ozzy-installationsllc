@@ -59,7 +59,7 @@ export default function Services() {
         </div>
 
         <Link
-          href="/services"
+          href="/services#fireplace_installation"
           className="flex flex-wrap gap-5 rounded-2xl border border-border bg-vanilla-custard-900 p-5 transition-colors hover:border-vivid-tangerine md:gap-8 md:p-9"
         >
           <div className="flex flex-[1_1_320px] flex-col gap-3 md:gap-3.5">
@@ -95,7 +95,7 @@ export default function Services() {
           {OTHERS.map((key) => (
             <li key={key}>
               <Link
-                href="/services"
+                href={`/services#${key}`}
                 className="flex min-h-18 items-center gap-3.5 border-b border-border py-3 md:h-full md:flex-col md:items-start md:gap-3 md:rounded-2xl md:border md:p-7 md:transition-colors md:hover:border-vivid-tangerine"
               >
                 <HugeiconsIcon

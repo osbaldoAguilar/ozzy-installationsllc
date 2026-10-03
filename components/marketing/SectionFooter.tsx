@@ -33,7 +33,7 @@ export default function SectionFooter() {
           <div className="flex flex-col gap-2.5">
             <p className="font-semibold text-sunflower-gold">Services</p>
             {FOOTER_SERVICES.map((key) => (
-              <Link key={key} href="/services" className="hover:text-vanilla-custard-900">
+              <Link key={key} href={`/services#${key}`} className="hover:text-vanilla-custard-900">
                 {SERVICE_CATEGORIES[key].label}
               </Link>
             ))}
