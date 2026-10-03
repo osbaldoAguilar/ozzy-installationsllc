@@ -106,7 +106,7 @@ export default function ServiceList() {
               )}
 
               <Link
-                href="/contact"
+                href={`/contact?service=${type}`}
                 className={cn(
                   primary
                     ? cn(buttonVariants(), "mt-2 h-12 px-6 text-base font-semibold")
