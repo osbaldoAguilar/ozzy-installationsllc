@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
+import { sendLeadEmail } from "@/lib/email/lead";
 import { leadSchema, type LeadField } from "@/lib/validations/lead";
 
 export type LeadFormState = {
@@ -48,13 +49,19 @@ export async function submitLead(
     return { status: "unavailable", values };
   }
 
+  let leadId: string;
   try {
-    await db.insert(leads).values({ ...parsed.data, source: "form" });
+    const [row] = await db
+      .insert(leads)
+      .values({ ...parsed.data, source: "form" })
+      .returning({ id: leads.id });
+    leadId = row.id;
   } catch (error) {
     console.error("[lead] insert failed; lead not saved:", parsed.data, error);
     return { status: "unavailable", values };
   }
 
-  // TODO: email the owner with Resend (CONTACT_NOTIFICATION_EMAIL), then return "sent".
-  return { status: "saved" };
+  // Saved either way; only claim "we've got it" once the owner has actually been emailed.
+  const emailed = await sendLeadEmail(parsed.data, leadId);
+  return { status: emailed ? "sent" : "saved" };
 }
