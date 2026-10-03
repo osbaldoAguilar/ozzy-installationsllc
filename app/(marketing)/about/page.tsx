@@ -97,8 +97,8 @@ export default function AboutPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-6 px-5 py-14 md:gap-14 md:px-6 md:py-24">
           <div className="relative aspect-[4/3] w-full flex-[1_1_340px] overflow-hidden rounded-2xl bg-vanilla-custard md:aspect-square md:max-w-[480px]">
             <CloudinaryImage
-              src={PHOTOS.traditionalMantel}
-              alt="Lit gas insert set in a carved white mantel with black stone surround"
+              src={PHOTOS.whiteMantelNewBuild}
+              alt="White mantel and black hearth installed in a new-construction home"
               fill
               sizes="(min-width: 768px) 480px, 100vw"
               className="object-cover"

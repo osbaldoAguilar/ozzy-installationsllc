@@ -54,7 +54,7 @@ export const PROJECTS: Project[] = [
     photo: PHOTOS.recessedLinear,
     title: "Recessed linear fireplace, ready for finish",
     service: "fireplace_installation",
-    alt: "Linear fireplace set flush into a new wall before the finish work",
+    alt: "Linear fireplace set flush into a wall before the finish work",
   },
   {
     photo: PHOTOS.stoneChaseCover,

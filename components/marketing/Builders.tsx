@@ -2,8 +2,10 @@ import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Tick02Icon } from "@hugeicons/core-free-icons";
 
+import CloudinaryImage from "@/components/CloudinaryImage";
 import { buttonVariants } from "@/components/ui/button";
 import SectionHeading from "@/components/marketing/SectionHeading";
+import { PHOTOS } from "@/lib/cloudinary";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -25,8 +27,8 @@ const POINTS = [
 export default function Builders() {
   return (
     <section id="builders" className="scroll-mt-20">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-start gap-6 px-5 py-14 md:gap-14 md:px-6 md:py-28">
-        <div className="flex flex-[1_1_360px] flex-col gap-5">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-14 md:grid-cols-[1.15fr_1fr] md:gap-16 md:px-6 md:py-28">
+        <div className="flex flex-col gap-5 md:gap-6">
           <SectionHeading
             eyebrow="For builders & contractors"
             title="A fireplace crew you can schedule around"
@@ -37,37 +39,41 @@ export default function Builders() {
               fireplace fits in it.
             </p>
           </SectionHeading>
+          <ul className="flex flex-col">
+            {POINTS.map((point) => (
+              <li key={point.title} className="flex gap-3 border-b border-border py-3.5 md:gap-4 md:py-4">
+                <HugeiconsIcon
+                  icon={Tick02Icon}
+                  size={22}
+                  className="mt-0.5 shrink-0 text-vivid-tangerine-400"
+                />
+                <div className="flex flex-col gap-0.5 md:gap-1">
+                  <span className="font-semibold md:text-[17px]">{point.title}</span>
+                  <span className="text-[15px] text-muted-foreground md:text-base">{point.body}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
           <Link
             href="/contact"
             className={cn(
               buttonVariants(),
-              "hidden h-13 self-start px-7 text-[17px] font-semibold md:inline-flex",
+              "h-13 w-full px-7 text-[17px] font-semibold md:w-auto md:self-start",
             )}
           >
             Talk to us about your next build
           </Link>
         </div>
-        <ul className="flex flex-[1_1_360px] flex-col">
-          {POINTS.map((point) => (
-            <li key={point.title} className="flex gap-3 border-b border-border py-3.5 md:gap-4 md:py-5">
-              <HugeiconsIcon
-                icon={Tick02Icon}
-                size={22}
-                className="mt-0.5 shrink-0 text-vivid-tangerine-400"
-              />
-              <div className="flex flex-col gap-0.5 md:gap-1">
-                <span className="font-semibold md:text-[17px]">{point.title}</span>
-                <span className="text-[15px] text-muted-foreground md:text-base">{point.body}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <Link
-          href="/contact"
-          className={cn(buttonVariants(), "h-13 w-full text-[17px] font-semibold md:hidden")}
-        >
-          Talk to us about your next build
-        </Link>
+
+        <div className="relative order-first aspect-[4/3] overflow-hidden rounded-2xl bg-deep-space-blue md:order-none md:aspect-[4/5]">
+          <CloudinaryImage
+            src={PHOTOS.recessedLinear}
+            alt="Linear fireplace set flush into a wall before the finish work"
+            fill
+            sizes="(min-width: 768px) 480px, 100vw"
+            className="object-cover"
+          />
+        </div>
       </div>
     </section>
   );
