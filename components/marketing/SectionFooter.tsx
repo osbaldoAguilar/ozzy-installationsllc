@@ -41,8 +41,8 @@ export default function SectionFooter() {
 
           <div className="flex flex-col gap-2.5">
             <p className="font-semibold text-sunflower-gold">Company</p>
-            <Link href="/#about" className="hover:text-vanilla-custard-900">About</Link>
-            <Link href="/#work" className="hover:text-vanilla-custard-900">Portfolio</Link>
+            <Link href="/about" className="hover:text-vanilla-custard-900">About</Link>
+            <Link href="/portfolio" className="hover:text-vanilla-custard-900">Portfolio</Link>
             <Link href="/#builders" className="hover:text-vanilla-custard-900">For builders</Link>
             <Link href="/contact" className="hover:text-vanilla-custard-900">Get an estimate</Link>
           </div>
