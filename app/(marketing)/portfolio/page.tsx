@@ -4,6 +4,8 @@ import Link from "next/link";
 import Contact from "@/components/marketing/contact/Contact";
 import BeforeAfter from "@/components/marketing/portfolio/BeforeAfter";
 import ProjectCard from "@/components/marketing/portfolio/ProjectCard";
+import PageHero from "@/components/marketing/PageHero";
+import { PHOTOS } from "@/lib/cloudinary";
 import { PROJECTS } from "@/lib/portfolio";
 import { SERVICE_CATEGORIES, SERVICE_TYPES, type ServiceType } from "@/lib/services";
 import { cn } from "@/lib/utils";
@@ -36,19 +38,16 @@ export default async function PortfolioPage(props: PageProps<"/portfolio">) {
 
   return (
     <>
-      <section className="bg-deep-space-blue text-vanilla-custard-900">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-5 pt-14 pb-12 md:px-6 md:pt-22 md:pb-18">
-          <p className="text-[13px] font-semibold tracking-[0.08em] text-sunflower-gold uppercase md:text-sm">
-            Portfolio
-          </p>
-          <h1 className="max-w-3xl text-[2.4rem] leading-[1.06] text-balance text-vanilla-custard-900 md:text-6xl">
-            Our work, start to finish
-          </h1>
-          <p className="max-w-2xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
-            Real jobs from homes, remodels and commercial builds across North Carolina.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Portfolio"
+        title="Our work, start to finish"
+        photo={PHOTOS.afterShiplap}
+        position="object-[50%_60%]"
+      >
+        <p className="max-w-xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
+          Real jobs from homes, remodels and commercial builds across North Carolina.
+        </p>
+      </PageHero>
 
       <section>
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-12 md:gap-12 md:px-6 md:py-20">

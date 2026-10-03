@@ -9,6 +9,7 @@ import {
 
 import CloudinaryImage from "@/components/CloudinaryImage";
 import Contact from "@/components/marketing/contact/Contact";
+import PageHero from "@/components/marketing/PageHero";
 import SectionHeading from "@/components/marketing/SectionHeading";
 import { PHOTOS } from "@/lib/cloudinary";
 import { SITE, yearsInTrade } from "@/lib/site";
@@ -79,32 +80,28 @@ const ON_THE_JOB = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-deep-space-blue text-vanilla-custard-900">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-5 pt-14 pb-12 md:px-6 md:pt-22 md:pb-18">
-          <p className="text-[13px] font-semibold tracking-[0.08em] text-sunflower-gold uppercase md:text-sm">
-            About · Family-owned
-          </p>
-          <h1 className="max-w-3xl text-[2.4rem] leading-[1.06] text-balance text-vanilla-custard-900 md:text-6xl">
-            A family business with {yearsInTrade()} years behind it
-          </h1>
-          <p className="max-w-2xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
-            {SITE.name} is new as a name, not as a crew. {SITE.owner} has been installing
-            fireplaces since {SITE.experienceSince}.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="About · Family-owned"
+        title={`A family business with ${yearsInTrade()} years behind it`}
+        photo={PHOTOS.onTheRoof}
+        position="object-[35%_40%]"
+      >
+        <p className="max-w-xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
+          {SITE.name} is new as a name, not as a crew. {SITE.owner} has been installing
+          fireplaces since {SITE.experienceSince}.
+        </p>
+      </PageHero>
 
       {/* Story */}
       <section>
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-6 px-5 py-14 md:gap-14 md:px-6 md:py-24">
           <div className="relative aspect-[4/3] w-full flex-[1_1_340px] overflow-hidden rounded-2xl bg-vanilla-custard md:aspect-square md:max-w-[480px]">
             <CloudinaryImage
-              src={PHOTOS.onTheRoof}
-              alt="Ozzy Installations crew member on a roof beside a newly finished chimney chase"
+              src={PHOTOS.traditionalMantel}
+              alt="Lit gas insert set in a carved white mantel with black stone surround"
               fill
               sizes="(min-width: 768px) 480px, 100vw"
-              className="object-cover object-[40%_45%]"
-              preload
+              className="object-cover"
             />
           </div>
           <div className="flex min-w-0 flex-[999_1_420px] flex-col gap-5">
