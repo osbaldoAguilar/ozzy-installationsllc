@@ -29,8 +29,12 @@ function describe(lead: Lead) {
 /** Emails the owner about a new lead. Returns false (never throws) so the lead flow can fall back. */
 export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_NOTIFICATION_EMAIL;
-  if (!apiKey || !to) return false;
+  // Everyone who gets lead emails. Either var may also hold a comma-separated list.
+  const to = [process.env.CONTACT_NOTIFICATION_EMAIL, process.env.CONTACT_NOTIFICATION_EMAIL_TWO]
+    .flatMap((v) => (v ?? "").split(","))
+    .map((v) => v.trim())
+    .filter(Boolean);
+  if (!apiKey || to.length === 0) return false;
 
   const { service, rows } = describe(lead);
   const phoneHref = lead.phone ? `tel:${lead.phone.replace(/[^\d+]/g, "")}` : null;
@@ -66,7 +70,7 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
       },
       body: JSON.stringify({
         from: FROM,
-        to: [to],
+        to, // already a list of addresses
         reply_to: lead.email, // hitting Reply answers the customer directly
         subject: `New lead: ${lead.name} · ${service}`,
         html,
