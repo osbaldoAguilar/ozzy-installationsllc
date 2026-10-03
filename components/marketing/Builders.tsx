@@ -65,8 +65,11 @@ export default function Builders() {
           </Link>
         </div>
 
-        <div className="relative order-first aspect-[4/3] overflow-hidden rounded-2xl bg-deep-space-blue md:order-none md:aspect-[4/5]">
+        <div className="relative order-first aspect-[4/3] overflow-hidden rounded-2xl bg-deep-space-blue md:order-none">
           <CloudinaryImage
+            watermark
+            aspect="4:3"
+            gravity="south"
             src={PHOTOS.newbuildFraming}
             alt="Fireplace set at the base of a tall framed chase inside a new home"
             fill

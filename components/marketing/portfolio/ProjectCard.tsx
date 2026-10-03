@@ -13,6 +13,8 @@ export default function ProjectCard({
     <figure className="flex flex-col gap-2 md:gap-3">
       <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-deep-space-blue md:rounded-2xl">
         <CloudinaryImage
+          watermark
+          aspect="4:5"
           src={project.photo}
           alt={project.alt}
           fill

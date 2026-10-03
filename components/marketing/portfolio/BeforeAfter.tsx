@@ -49,6 +49,8 @@ export default function BeforeAfter() {
           <li key={step.label}>
             <figure className="relative aspect-[3/4] overflow-hidden rounded-xl bg-deep-space-blue">
               <CloudinaryImage
+                watermark
+                aspect="3:4"
                 src={step.photo}
                 alt={step.alt}
                 fill

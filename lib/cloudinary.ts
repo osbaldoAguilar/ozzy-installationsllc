@@ -8,6 +8,11 @@ export function cldUrl(publicId: string, transforms = "f_auto,q_auto") {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
 }
 
+// White logo (site/watermark) in the bottom-right corner, 16% of the image width.
+// Applied on delivery, so the originals in Cloudinary stay clean.
+export const WATERMARK =
+  "l_site:watermark,w_0.16,fl_relative,o_80,e_shadow:30/fl_layer_apply,g_south_east,x_0.04,y_0.03";
+
 export function cldVideoUrl(publicId: string, transforms: string, ext = "mp4") {
   return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${transforms}/${publicId}.${ext}`;
 }
@@ -66,7 +71,10 @@ export const PHOTOS = {
 } as const;
 
 // One representative photo per service (home cards + /services).
-export const SERVICE_PHOTOS: Record<ServiceType, { photo: string; alt: string }> = {
+export const SERVICE_PHOTOS: Record<
+  ServiceType,
+  { photo: string; alt: string; gravity?: "center" | "south" }
+> = {
   fireplace_installation: {
     photo: PHOTOS.stoneLinearGas,
     alt: "Linear gas fireplace with a flame running, set in a stacked stone wall",
@@ -86,5 +94,6 @@ export const SERVICE_PHOTOS: Record<ServiceType, { photo: string; alt: string }>
   other_services: {
     photo: PHOTOS.woodStoveKitchen,
     alt: "Black wood stove with stovepipe running up through the ceiling",
+    gravity: "south",
   },
 };

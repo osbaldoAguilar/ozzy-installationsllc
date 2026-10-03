@@ -43,8 +43,10 @@ export default function Services() {
           href="/services#fireplace_installation"
           className="group grid overflow-hidden rounded-2xl border border-border bg-section transition-colors hover:border-vivid-tangerine md:grid-cols-[1.1fr_1fr]"
         >
-          <div className="relative aspect-[16/10] overflow-hidden bg-deep-space-blue md:aspect-auto md:min-h-[380px]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-deep-space-blue md:aspect-auto md:min-h-[360px]">
             <CloudinaryImage
+              watermark
+              aspect="16:10"
               src={SERVICE_PHOTOS.fireplace_installation.photo}
               alt={SERVICE_PHOTOS.fireplace_installation.alt}
               fill
@@ -87,6 +89,9 @@ export default function Services() {
               >
                 <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-deep-space-blue md:aspect-[4/3] md:size-auto md:rounded-none">
                   <CloudinaryImage
+                    watermark
+                    aspect="4:3"
+                    gravity={SERVICE_PHOTOS[key].gravity}
                     src={SERVICE_PHOTOS[key].photo}
                     alt=""
                     fill

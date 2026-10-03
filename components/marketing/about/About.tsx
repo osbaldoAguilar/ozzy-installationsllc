@@ -9,8 +9,10 @@ export default function About() {
   return (
     <section id="about" className="scroll-mt-20 border-t border-section-border bg-section">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-5 px-5 py-14 md:gap-14 md:px-6 md:py-28">
-        <div className="relative aspect-[4/3] w-full flex-[1_1_340px] overflow-hidden rounded-2xl bg-vanilla-custard md:aspect-square md:max-w-[480px]">
+        <div className="relative aspect-square w-full flex-[1_1_340px] overflow-hidden rounded-2xl bg-vanilla-custard md:max-w-[480px]">
           <CloudinaryImage
+            watermark
+            aspect="1:1"
             src={PHOTOS.onTheRoof}
             alt="Ozzy Installations crew member on a roof beside a newly finished chimney chase"
             fill

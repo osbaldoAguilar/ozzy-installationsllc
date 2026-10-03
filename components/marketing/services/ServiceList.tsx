@@ -59,6 +59,9 @@ export default function ServiceList() {
           >
             <div className="relative aspect-[4/3] w-full flex-[1_1_360px] overflow-hidden rounded-2xl bg-deep-space-blue md:max-w-[520px]">
               <CloudinaryImage
+                watermark
+                aspect="4:3"
+                gravity={SERVICE_PHOTOS[type].gravity}
                 src={SERVICE_PHOTOS[type].photo}
                 alt={SERVICE_PHOTOS[type].alt}
                 fill
