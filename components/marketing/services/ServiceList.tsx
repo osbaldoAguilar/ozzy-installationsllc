@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import CloudinaryImage from "@/components/CloudinaryImage";
 import { buttonVariants } from "@/components/ui/button";
-import { PHOTOS } from "@/lib/cloudinary";
+import { SERVICE_PHOTOS } from "@/lib/cloudinary";
 import {
   SERVICE_CATEGORIES,
   SERVICE_TYPES,
@@ -12,38 +12,25 @@ import {
 import { cn } from "@/lib/utils";
 
 // TODO: move to Sanity `service` documents once the Studio is wired up.
-const DETAILS: Record<
-  ServiceType,
-  { body: string; photo: string; alt: string; cta: string }
-> = {
+const DETAILS: Record<ServiceType, { body: string; cta: string }> = {
   fireplace_installation: {
     body: "Gas, wood and electric fireplaces sized, vented and finished for your space. We work out which venting the house allows, then install to code.",
-    photo: PHOTOS.slateLinear,
-    alt: "Linear gas fireplace in a slate tile surround under a wood mantel",
     cta: "Get an installation estimate",
   },
   chimney_cap: {
     body: "Worn, rusted or missing caps replaced to keep rain, debris and animals out of the flue.",
-    photo: PHOTOS.rooftopShroud,
-    alt: "Stone chimney with a black decorative shroud on a commercial rooftop",
     cta: "Request this service",
   },
   hearth_mantel: {
     body: "Hearths and mantels built and set to suit the room — the finish work that makes a fireplace the centerpiece.",
-    photo: PHOTOS.whiteMantelNewBuild,
-    alt: "White mantel and black hearth installed in a new-construction home",
     cta: "Request this service",
   },
   service_call: {
     body: "Pilot won't stay lit, ignition trouble, or something just isn't right — we come out, diagnose and repair.",
-    photo: PHOTOS.insertInstall,
-    alt: "Gas fireplace insert being fitted with the surrounding wall opened up",
     cta: "Book a service call",
   },
   other_services: {
     body: "Wood stoves, gas inserts, electric fireplaces and other hearth products. Not sure it fits a category? Ask.",
-    photo: PHOTOS.linearElectric,
-    alt: "Wall-mounted linear electric fireplace installed during construction",
     cta: "Ask about a project",
   },
 };
@@ -72,8 +59,8 @@ export default function ServiceList() {
           >
             <div className="relative aspect-[4/3] w-full flex-[1_1_360px] overflow-hidden rounded-2xl bg-deep-space-blue md:max-w-[520px]">
               <CloudinaryImage
-                src={detail.photo}
-                alt={detail.alt}
+                src={SERVICE_PHOTOS[type].photo}
+                alt={SERVICE_PHOTOS[type].alt}
                 fill
                 sizes="(min-width: 768px) 520px, 100vw"
                 className="object-cover"

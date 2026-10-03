@@ -1,3 +1,5 @@
+import type { ServiceType } from "@/lib/services";
+
 // Cloudinary delivery. The cloud name is public (it's in every image URL),
 // so it lives here instead of an env var. CLOUDINARY_URL stays server-only.
 export const CLOUD_NAME = "gto-development";
@@ -24,3 +26,27 @@ export const PHOTOS = {
   sidedChase: "IMG_4403_nhfdsc",
   shiplapInProgress: "IMG_7552_oi14mv",
 } as const;
+
+// One representative photo per service (home cards + /services).
+export const SERVICE_PHOTOS: Record<ServiceType, { photo: string; alt: string }> = {
+  fireplace_installation: {
+    photo: PHOTOS.slateLinear,
+    alt: "Linear gas fireplace in a slate tile surround under a wood mantel",
+  },
+  chimney_cap: {
+    photo: PHOTOS.rooftopShroud,
+    alt: "Stone chimney with a black decorative shroud on a commercial rooftop",
+  },
+  hearth_mantel: {
+    photo: PHOTOS.whiteMantelNewBuild,
+    alt: "White mantel and black hearth installed in a new-construction home",
+  },
+  service_call: {
+    photo: PHOTOS.insertInstall,
+    alt: "Gas fireplace insert being fitted with the surrounding wall opened up",
+  },
+  other_services: {
+    photo: PHOTOS.linearElectric,
+    alt: "Wall-mounted linear electric fireplace installed during construction",
+  },
+};
