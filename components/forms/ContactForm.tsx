@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Call02Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 
@@ -251,4 +252,10 @@ export default function ContactForm({ initialService }: { initialService?: strin
       </div>
     </form>
   );
+}
+
+// Reads ?service= after load (links from /services), so the page itself can be prerendered.
+export function ContactFormFromUrl() {
+  const service = useSearchParams().get("service") ?? undefined;
+  return <ContactForm key={service} initialService={service} />;
 }

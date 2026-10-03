@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Call02Icon } from "@hugeicons/core-free-icons";
 
-import ContactForm from "@/components/forms/ContactForm";
+import ContactForm, { ContactFormFromUrl } from "@/components/forms/ContactForm";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,10 +14,8 @@ export const metadata: Metadata = {
 
 const { coreArea, tripFee, diagnosticFee } = SITE.estimates;
 
-export default async function ContactPage(props: PageProps<"/contact">) {
-  // /contact?service=chimney_cap preselects the service (links from /services).
-  const { service } = await props.searchParams;
-
+// Static page (prerendered + prefetched). ?service=chimney_cap preselects in the browser.
+export default function ContactPage() {
   return (
     <section className="bg-section">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-start gap-8 px-5 pt-12 pb-16 md:gap-14 md:px-6 md:pt-20 md:pb-28">
@@ -61,7 +60,9 @@ export default async function ContactPage(props: PageProps<"/contact">) {
         </div>
 
         <div className="relative w-full min-w-0 flex-[999_1_520px] rounded-2xl border border-border bg-background p-5 sm:p-8 md:p-10">
-          <ContactForm initialService={typeof service === "string" ? service : undefined} />
+          <Suspense fallback={<ContactForm />}>
+            <ContactFormFromUrl />
+          </Suspense>
         </div>
       </div>
     </section>
