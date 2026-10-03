@@ -49,6 +49,25 @@ export default function ContactForm({ initialService }: { initialService?: strin
   const describedBy = (f: LeadField) => (err(f) ? `${f}-error` : undefined);
   const subtypes = service ? SERVICE_CATEGORIES[service].subtypes : null;
 
+  if (state.status === "saved") {
+    return (
+      <div role="status" className="flex flex-col items-start gap-4 py-6">
+        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={44} className="text-ember" />
+        <h2 className="text-3xl">We&apos;ve saved your request.</h2>
+        <p className="text-[17px] leading-relaxed text-muted-foreground">
+          To make sure we see it quickly, please also give us a call.
+        </p>
+        <a
+          href={SITE.phone.href}
+          className={cn(buttonVariants(), "h-12 gap-2 px-6 text-base font-semibold")}
+        >
+          <HugeiconsIcon icon={Call02Icon} size={18} />
+          Call {SITE.phone.display}
+        </a>
+      </div>
+    );
+  }
+
   if (state.status === "sent") {
     return (
       <div role="status" className="flex flex-col items-start gap-4 py-6">
@@ -68,9 +87,9 @@ export default function ContactForm({ initialService }: { initialService?: strin
           role="alert"
           className="flex flex-col gap-3 rounded-xl border border-vivid-tangerine bg-ember-soft p-4"
         >
-          <p className="font-semibold">Online requests aren&apos;t connected yet.</p>
+          <p className="font-semibold">We couldn&apos;t send your request.</p>
           <p className="text-[15px] leading-relaxed">
-            Your details weren&apos;t sent. Please call us and we&apos;ll take it from there.
+            Something went wrong on our end. Please call us and we&apos;ll take it from there.
           </p>
           <a
             href={SITE.phone.href}

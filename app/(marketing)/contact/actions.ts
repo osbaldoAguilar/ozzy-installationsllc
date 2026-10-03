@@ -2,10 +2,13 @@
 
 import { z } from "zod";
 
+import { db } from "@/lib/db";
+import { leads } from "@/lib/db/schema";
 import { leadSchema, type LeadField } from "@/lib/validations/lead";
 
 export type LeadFormState = {
-  status: "idle" | "invalid" | "unavailable" | "sent";
+  // saved = in the database but nobody notified yet (email not connected) → also ask them to call.
+  status: "idle" | "invalid" | "unavailable" | "saved" | "sent";
   errors?: Partial<Record<LeadField, string[]>>;
   values?: Record<string, string>;
 };
@@ -40,10 +43,18 @@ export async function submitLead(
     };
   }
 
-  // TODO (Phase 2, docs/architecture-v1.md §6): insert into Neon via Drizzle
-  // (source "form", status "new"), email the owner with Resend, then return "sent".
-  // Until then, never tell the visitor we got it — point them to the phone instead.
-  // The log is a stopgap so a lead still shows up in the Vercel function logs.
-  console.warn("[lead] backend not connected yet; lead not saved:", parsed.data);
-  return { status: "unavailable", values };
+  if (!db) {
+    console.error("[lead] no database configured; lead not saved:", parsed.data);
+    return { status: "unavailable", values };
+  }
+
+  try {
+    await db.insert(leads).values({ ...parsed.data, source: "form" });
+  } catch (error) {
+    console.error("[lead] insert failed; lead not saved:", parsed.data, error);
+    return { status: "unavailable", values };
+  }
+
+  // TODO: email the owner with Resend (CONTACT_NOTIFICATION_EMAIL), then return "sent".
+  return { status: "saved" };
 }
