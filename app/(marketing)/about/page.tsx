@@ -139,16 +139,16 @@ export default function AboutPage() {
       </section>
 
       {/* What you can count on */}
-      <section className="bg-vanilla-custard-900">
+      <section className="bg-section">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-14 md:gap-12 md:px-6 md:py-24">
           <SectionHeading eyebrow="How we work" title="What you can count on" />
           <ul className="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-4">
             {PROMISES.map((promise) => (
               <li
                 key={promise.title}
-                className="flex flex-col gap-3 rounded-2xl border border-vanilla-custard-700 bg-background p-6 md:p-7"
+                className="flex flex-col gap-3 rounded-2xl border border-section-border bg-background p-6 md:p-7"
               >
-                <HugeiconsIcon icon={promise.icon} size={30} className="text-vivid-tangerine-400" />
+                <HugeiconsIcon icon={promise.icon} size={30} className="text-ember" />
                 <h3 className="text-xl md:text-[22px]">{promise.title}</h3>
                 <p className="text-[15px] leading-relaxed text-muted-foreground md:text-base">
                   {promise.body}

@@ -51,7 +51,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
   if (state.status === "sent") {
     return (
       <div role="status" className="flex flex-col items-start gap-4 py-6">
-        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={44} className="text-vivid-tangerine-400" />
+        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={44} className="text-ember" />
         <h2 className="text-3xl">Thanks — we&apos;ve got it.</h2>
         <p className="text-[17px] leading-relaxed text-muted-foreground">
           We&apos;ll reach out to set up your estimate.
@@ -65,7 +65,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
       {state.status === "unavailable" && (
         <div
           role="alert"
-          className="flex flex-col gap-3 rounded-xl border border-vivid-tangerine bg-vivid-tangerine-900 p-4"
+          className="flex flex-col gap-3 rounded-xl border border-vivid-tangerine bg-ember-soft p-4"
         >
           <p className="font-semibold">Online requests aren&apos;t connected yet.</p>
           <p className="text-[15px] leading-relaxed">
@@ -183,7 +183,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
             ([value, label]) => (
               <label
                 key={value}
-                className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-border bg-background px-4 text-[15px] font-medium has-checked:border-vivid-tangerine has-checked:bg-vivid-tangerine-900 has-focus-visible:ring-2 has-focus-visible:ring-vivid-tangerine/40"
+                className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-border bg-background px-4 text-[15px] font-medium has-checked:border-vivid-tangerine has-checked:bg-ember-soft has-focus-visible:ring-2 has-focus-visible:ring-vivid-tangerine/40"
               >
                 <input
                   type="radio"
@@ -227,7 +227,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
           type="file"
           accept="image/*"
           multiple
-          className="min-h-12 rounded-[10px] border border-dashed border-border bg-vanilla-custard-900 px-3.5 py-2.5 text-[15px] file:mr-3 file:rounded-full file:border-0 file:bg-deep-space-blue file:px-3.5 file:py-1.5 file:text-sm file:font-semibold file:text-vanilla-custard-900"
+          className="min-h-12 rounded-[10px] border border-dashed border-border bg-section px-3.5 py-2.5 text-[15px] file:mr-3 file:rounded-full file:border-0 file:bg-deep-space-blue file:px-3.5 file:py-1.5 file:text-sm file:font-semibold file:text-vanilla-custard-900"
         />
       </div>
 

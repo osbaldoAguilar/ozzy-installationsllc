@@ -45,7 +45,7 @@ export default function MobileMenu() {
               key={item.href}
               href={item.href}
               onClick={close}
-              className="flex min-h-13 items-center border-b border-vanilla-custard-700 text-lg font-medium"
+              className="flex min-h-13 items-center border-b border-section-border text-lg font-medium"
             >
               {item.label}
             </Link>

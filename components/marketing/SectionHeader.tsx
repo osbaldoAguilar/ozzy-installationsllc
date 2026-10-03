@@ -6,6 +6,7 @@ import MobileMenu from "@/components/marketing/MobileMenu";
 import { NAV } from "@/lib/nav";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import logoGold from "@/public/brand/logo-gold.png";
 import logoNavy from "@/public/brand/logo-navy.png";
 
 export default function SectionHeader() {
@@ -16,7 +17,8 @@ export default function SectionHeader() {
           href="/"
           className="mr-auto flex items-center gap-2.5 font-heading text-lg font-semibold md:text-xl"
         >
-          <Image src={logoNavy} alt="" className="h-10 w-auto md:h-12" preload />
+          <Image src={logoNavy} alt="" className="h-10 w-auto md:h-12 dark:hidden" preload />
+          <Image src={logoGold} alt="" className="hidden h-10 w-auto md:h-12 dark:block" />
           {SITE.name}
         </Link>
 

@@ -18,7 +18,7 @@ export default function SectionHeading({
       <p
         className={cn(
           "text-[13px] font-semibold tracking-[0.08em] uppercase md:text-sm",
-          dark ? "text-sunflower-gold" : "text-vivid-tangerine-400",
+          dark ? "text-sunflower-gold" : "text-ember",
         )}
       >
         {eyebrow}

@@ -24,14 +24,14 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section id="how" className="border-t border-vanilla-custard-700 bg-vanilla-custard-900">
+    <section id="how" className="border-t border-section-border bg-section">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-14 md:gap-12 md:px-6 md:py-28">
         <SectionHeading eyebrow="How it works" title="No surprises, start to finish" />
         <ol className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4">
           {STEPS.map((step, i) => (
             <li
               key={step.title}
-              className="flex gap-4 md:flex-col md:gap-3 md:rounded-2xl md:border md:border-vanilla-custard-700 md:bg-background md:p-7"
+              className="flex gap-4 md:flex-col md:gap-3 md:rounded-2xl md:border md:border-section-border md:bg-background md:p-7"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-deep-space-blue font-heading text-lg text-sunflower-gold md:size-11 md:text-xl">
                 {i + 1}

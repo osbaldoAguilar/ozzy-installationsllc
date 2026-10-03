@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 @import "./shadcn.css";
 
-@custom-variant dark (&:is(.dark *));
+/* Dark mode follows the visitor's system setting. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 /* ---------------------------------------------------------------------------
    Brand palette — raw scales.
@@ -69,6 +70,10 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-section: var(--section);
+  --color-section-border: var(--section-border);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
@@ -117,6 +122,7 @@
    flag red = destructive. Contrast ratios noted where they matter.
 --------------------------------------------------------------------------- */
 :root {
+  color-scheme: light dark; /* native form controls + scrollbars follow the theme */
   --background: #ffffff;
   --foreground: var(--color-deep-space-blue-400); /* navy ink, 12.9:1 on white */
   --card: #ffffff;
@@ -150,6 +156,12 @@
 
   --radius: 0.625rem;
 
+  /* Warm cream sections, and a deep tangerine for small text (eyebrows, links). */
+  --section: var(--color-vanilla-custard-900);
+  --section-border: var(--color-vanilla-custard-700);
+  --ember: var(--color-vivid-tangerine-300); /* 6.4:1 on white */
+  --ember-soft: var(--color-vivid-tangerine-900);
+
   --sidebar: var(--color-deep-space-blue);
   --sidebar-foreground: var(--color-vanilla-custard-900);
   --sidebar-primary: var(--color-vivid-tangerine);
@@ -160,46 +172,54 @@
   --sidebar-ring: var(--color-sunflower-gold);
 }
 
-.dark {
-  --background: var(--color-deep-space-blue-200);
-  --foreground: var(--color-vanilla-custard-800); /* warm off-white, 16.2:1 */
-  --card: var(--color-deep-space-blue-300);
-  --card-foreground: var(--color-vanilla-custard-800);
-  --popover: var(--color-deep-space-blue-300);
-  --popover-foreground: var(--color-vanilla-custard-800);
+/* Follows the visitor's system setting (no toggle). */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-deep-space-blue-200);
+    --foreground: var(--color-vanilla-custard-800); /* warm off-white, 16.2:1 */
+    --card: var(--color-deep-space-blue-300);
+    --card-foreground: var(--color-vanilla-custard-800);
+    --popover: var(--color-deep-space-blue-300);
+    --popover-foreground: var(--color-vanilla-custard-800);
 
-  --primary: var(--color-vivid-tangerine-600); /* lifted for dark surfaces */
-  --primary-foreground: var(--color-vivid-tangerine-100); /* 7.7:1 */
+    --primary: var(--color-vivid-tangerine-600); /* lifted for dark surfaces */
+    --primary-foreground: var(--color-vivid-tangerine-100); /* 7.7:1 */
 
-  --secondary: var(--color-deep-space-blue-400);
-  --secondary-foreground: var(--color-vanilla-custard-800); /* 14.4:1 */
+    --secondary: var(--color-deep-space-blue-400);
+    --secondary-foreground: var(--color-vanilla-custard-800); /* 14.4:1 */
 
-  --muted: var(--color-deep-space-blue-400);
-  --muted-foreground: #6da2bf; /* 6.8:1 on background */
+    --muted: var(--color-deep-space-blue-400);
+    --muted-foreground: #6da2bf; /* 6.8:1 on background */
 
-  --accent: var(--color-deep-space-blue);
-  --accent-foreground: var(--color-sunflower-gold-900);
+    --accent: var(--color-deep-space-blue);
+    --accent-foreground: var(--color-sunflower-gold-900);
 
-  --destructive: var(--color-flag-red-600);
+    --destructive: var(--color-flag-red-600);
 
-  --border: #ffffff1a;
-  --input: #ffffff26;
-  --ring: var(--color-vivid-tangerine-600);
+    --border: #ffffff1a;
+    --input: #ffffff26;
+    --ring: var(--color-vivid-tangerine-600);
 
-  --chart-1: var(--color-deep-space-blue-700);
-  --chart-2: var(--color-vivid-tangerine-600);
-  --chart-3: var(--color-sunflower-gold);
-  --chart-4: var(--color-flag-red-600);
-  --chart-5: var(--color-vanilla-custard);
+    --chart-1: var(--color-deep-space-blue-700);
+    --chart-2: var(--color-vivid-tangerine-600);
+    --chart-3: var(--color-sunflower-gold);
+    --chart-4: var(--color-flag-red-600);
+    --chart-5: var(--color-vanilla-custard);
 
-  --sidebar: var(--color-deep-space-blue-300);
-  --sidebar-foreground: var(--color-vanilla-custard-800);
-  --sidebar-primary: var(--color-vivid-tangerine-600);
-  --sidebar-primary-foreground: var(--color-vivid-tangerine-100);
-  --sidebar-accent: var(--color-deep-space-blue);
-  --sidebar-accent-foreground: var(--color-sunflower-gold-900);
-  --sidebar-border: #ffffff1a;
-  --sidebar-ring: var(--color-sunflower-gold);
+    --sidebar: var(--color-deep-space-blue-300);
+    --sidebar-foreground: var(--color-vanilla-custard-800);
+    --sidebar-primary: var(--color-vivid-tangerine-600);
+    --sidebar-primary-foreground: var(--color-vivid-tangerine-100);
+    --sidebar-accent: var(--color-deep-space-blue);
+    --sidebar-accent-foreground: var(--color-sunflower-gold-900);
+    --sidebar-border: #ffffff1a;
+    --sidebar-ring: var(--color-sunflower-gold);
+
+    --section: var(--color-deep-space-blue-300);
+    --section-border: #ffffff14;
+    --ember: var(--color-vivid-tangerine-600); /* 8.7:1 on background */
+    --ember-soft: var(--color-vivid-tangerine-100);
+  }
 }
 
 @layer base {

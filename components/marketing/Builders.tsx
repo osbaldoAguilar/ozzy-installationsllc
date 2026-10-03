@@ -45,7 +45,7 @@ export default function Builders() {
                 <HugeiconsIcon
                   icon={Tick02Icon}
                   size={22}
-                  className="mt-0.5 shrink-0 text-vivid-tangerine-400"
+                  className="mt-0.5 shrink-0 text-ember"
                 />
                 <div className="flex flex-col gap-0.5 md:gap-1">
                   <span className="font-semibold md:text-[17px]">{point.title}</span>

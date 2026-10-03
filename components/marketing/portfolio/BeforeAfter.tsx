@@ -20,7 +20,7 @@ const SHOTS = [
 
 export default function BeforeAfter() {
   return (
-    <div className="mx-5 flex flex-col gap-3 rounded-2xl border border-vanilla-custard-700 bg-vanilla-custard-900 p-4 md:mx-0 md:flex-row-reverse md:flex-wrap md:items-center md:gap-10 md:p-10">
+    <div className="mx-5 flex flex-col gap-3 rounded-2xl border border-section-border bg-section p-4 md:mx-0 md:flex-row-reverse md:flex-wrap md:items-center md:gap-10 md:p-10">
       <div className="grid flex-[999_1_520px] grid-cols-2 gap-2.5 md:gap-4">
         {SHOTS.map((shot) => (
           <figure key={shot.label} className="relative aspect-[3/4] overflow-hidden rounded-xl bg-deep-space-blue">
@@ -40,7 +40,7 @@ export default function BeforeAfter() {
         ))}
       </div>
       <div className="flex flex-[1_1_280px] flex-col gap-1 md:gap-3.5">
-        <p className="hidden text-sm font-semibold tracking-[0.06em] text-vivid-tangerine-400 uppercase md:block">
+        <p className="hidden text-sm font-semibold tracking-[0.06em] text-ember uppercase md:block">
           Before &amp; after
         </p>
         <h3 className="font-sans text-[15px] font-semibold md:font-heading md:text-4xl md:leading-tight md:font-medium">

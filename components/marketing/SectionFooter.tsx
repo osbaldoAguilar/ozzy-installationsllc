@@ -14,7 +14,7 @@ const FOOTER_SERVICES = [
 
 export default function SectionFooter() {
   return (
-    <footer className="bg-deep-space-blue-200 text-deep-space-blue-900">
+    <footer className="bg-deep-space-blue-200 text-deep-space-blue-900 dark:border-t dark:border-white/10">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 pt-14 pb-8 md:px-6 md:pt-16">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-8 text-[15px]">
           <div className="flex flex-col gap-3">

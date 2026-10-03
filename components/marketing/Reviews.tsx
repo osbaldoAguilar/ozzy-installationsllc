@@ -7,7 +7,7 @@ export default function Reviews() {
   if (REVIEWS.length === 0) return null;
 
   return (
-    <section id="reviews" className="border-y border-vanilla-custard-700 bg-vanilla-custard-900">
+    <section id="reviews" className="border-y border-section-border bg-section">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 py-14 md:gap-10 md:px-6 md:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6 px-5 md:px-0">
           <SectionHeading eyebrow="Reviews" title="What our customers say" />
@@ -28,7 +28,7 @@ export default function Reviews() {
                   "flex h-full flex-col justify-between gap-5 rounded-2xl p-6 md:gap-6 md:p-7",
                   review.builder
                     ? "bg-deep-space-blue text-vanilla-custard-900"
-                    : "border border-vanilla-custard-700 bg-background",
+                    : "border border-section-border bg-background",
                 )}
               >
                 <blockquote className="font-heading text-lg leading-snug md:text-xl">

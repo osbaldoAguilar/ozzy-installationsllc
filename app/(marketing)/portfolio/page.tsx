@@ -32,7 +32,7 @@ export default async function PortfolioPage(props: PageProps<"/portfolio">) {
     cn(
       "flex min-h-11 shrink-0 items-center rounded-full border px-4 text-[15px] font-medium transition-colors",
       selected
-        ? "border-deep-space-blue bg-deep-space-blue text-vanilla-custard-900"
+        ? "border-deep-space-blue bg-deep-space-blue text-vanilla-custard-900 dark:border-vanilla-custard-800 dark:bg-vanilla-custard-800 dark:text-deep-space-blue-400"
         : "border-border bg-background hover:border-vivid-tangerine",
     );
 

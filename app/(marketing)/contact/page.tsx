@@ -18,10 +18,10 @@ export default async function ContactPage(props: PageProps<"/contact">) {
   const { service } = await props.searchParams;
 
   return (
-    <section className="bg-vanilla-custard-900">
+    <section className="bg-section">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-start gap-8 px-5 pt-12 pb-16 md:gap-14 md:px-6 md:pt-20 md:pb-28">
         <div className="flex flex-[1_1_320px] flex-col gap-5 md:gap-6">
-          <p className="text-[13px] font-semibold tracking-[0.08em] text-vivid-tangerine-400 uppercase md:text-sm">
+          <p className="text-[13px] font-semibold tracking-[0.08em] text-ember uppercase md:text-sm">
             Get an estimate
           </p>
           <h1 className="text-[2.4rem] leading-[1.06] md:text-[3.5rem]">Tell us about the job</h1>
@@ -31,7 +31,7 @@ export default async function ContactPage(props: PageProps<"/contact">) {
             starts.
           </p>
 
-          <div className="flex flex-col gap-3 rounded-2xl bg-deep-space-blue p-6 text-vanilla-custard-900">
+          <div className="flex flex-col gap-3 rounded-2xl bg-deep-space-blue p-6 text-vanilla-custard-900 dark:border dark:border-white/10">
             <p className="font-semibold text-sunflower-gold">Prefer to talk?</p>
             <a href={SITE.phone.href} className="flex min-h-11 items-center gap-3 text-xl font-semibold">
               <HugeiconsIcon icon={Call02Icon} size={20} />

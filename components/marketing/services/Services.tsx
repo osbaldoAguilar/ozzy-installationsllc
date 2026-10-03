@@ -41,7 +41,7 @@ export default function Services() {
         {/* Lead service: photo + venting types. */}
         <Link
           href="/services#fireplace_installation"
-          className="group grid overflow-hidden rounded-2xl border border-border bg-vanilla-custard-900 transition-colors hover:border-vivid-tangerine md:grid-cols-[1.1fr_1fr]"
+          className="group grid overflow-hidden rounded-2xl border border-border bg-section transition-colors hover:border-vivid-tangerine md:grid-cols-[1.1fr_1fr]"
         >
           <div className="relative aspect-[16/10] overflow-hidden bg-deep-space-blue md:aspect-auto md:min-h-[380px]">
             <CloudinaryImage
@@ -70,7 +70,7 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-            <span className="inline-flex items-center gap-1.5 font-semibold text-vivid-tangerine-400">
+            <span className="inline-flex items-center gap-1.5 font-semibold text-ember">
               See installation details
               <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
             </span>
@@ -105,7 +105,7 @@ export default function Services() {
                 <HugeiconsIcon
                   icon={ArrowRight01Icon}
                   size={20}
-                  className="shrink-0 text-vivid-tangerine-400 md:hidden"
+                  className="shrink-0 text-ember md:hidden"
                 />
               </Link>
             </li>

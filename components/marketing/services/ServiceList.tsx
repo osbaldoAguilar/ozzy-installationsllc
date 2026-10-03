@@ -68,7 +68,7 @@ export default function ServiceList() {
             </div>
 
             <div className="flex min-w-0 flex-[999_1_420px] flex-col justify-center gap-4">
-              <p className="text-sm font-semibold text-vivid-tangerine-400">
+              <p className="text-sm font-semibold text-ember">
                 {String(i + 1).padStart(2, "0")}
               </p>
               <h2 className="text-3xl leading-[1.1] md:text-[2.5rem]">{service.label}</h2>
@@ -82,7 +82,7 @@ export default function ServiceList() {
                     ([key, label]) => (
                       <li
                         key={key}
-                        className="flex flex-col gap-1 rounded-xl border border-vanilla-custard-700 bg-vanilla-custard-900 px-4 py-3.5"
+                        className="flex flex-col gap-1 rounded-xl border border-section-border bg-section px-4 py-3.5"
                       >
                         <span className="font-semibold">{label}</span>
                         <span className="text-sm text-muted-foreground">{SUBTYPE_NOTES[key]}</span>
