@@ -61,19 +61,19 @@ const PROMISES = [
 
 const ON_THE_JOB = [
   {
-    photo: PHOTOS.onTheRoof,
-    alt: "Crew member on a roof beside a newly finished chimney chase",
-    position: "object-[40%_45%]",
+    photo: PHOTOS.crewCopperCap,
+    alt: "Two crew members setting a copper chimney cap on a roof",
+    position: "object-[50%_30%]",
   },
   {
-    photo: PHOTOS.shiplapInProgress,
-    alt: "Shiplap boards being set on a fireplace wall",
+    photo: PHOTOS.crewInsert,
+    alt: "Crew members kneeling at a fireplace, fitting the surround",
     position: "object-center",
   },
   {
-    photo: PHOTOS.stoneChaseCover,
-    alt: "Crew working at the top of a tall stone chimney",
-    position: "object-[50%_25%]",
+    photo: PHOTOS.crewFraming,
+    alt: "Crew member framing out a fireplace wall",
+    position: "object-center",
   },
 ];
 

@@ -67,8 +67,8 @@ export default function Builders() {
 
         <div className="relative order-first aspect-[4/3] overflow-hidden rounded-2xl bg-deep-space-blue md:order-none md:aspect-[4/5]">
           <CloudinaryImage
-            src={PHOTOS.recessedLinear}
-            alt="Linear fireplace set flush into a wall before the finish work"
+            src={PHOTOS.newbuildFraming}
+            alt="Fireplace set at the base of a tall framed chase inside a new home"
             fill
             sizes="(min-width: 768px) 480px, 100vw"
             className="object-cover"
