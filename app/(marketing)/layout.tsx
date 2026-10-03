@@ -5,7 +5,7 @@ export default function MarketingLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       <SectionHeader/>
-      <main className="flex ">{children}</main>
+      <main className="flex-1">{children}</main>
       <SectionFooter />
     </>
   );
