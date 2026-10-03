@@ -2,7 +2,7 @@
 export const SITE = {
   name: "Ozzy Installations",
   owner: "Osbaldo",
-  phone: { display: "(919) 000-0000", href: "tel:+19190000000" },
+  phone: { display: "(919) 816-6563", href: "tel:+19198166563" },
   email: "hello@example.com",
   instagram: {
     handle: "@ozzyinstallationsllc",
