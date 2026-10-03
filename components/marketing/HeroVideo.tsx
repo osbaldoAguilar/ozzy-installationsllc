@@ -27,7 +27,7 @@ export default function HeroVideo() {
         <div className="absolute inset-0 bg-deep-space-blue/60" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-12 md:px-6 md:py-24">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-12 pb-24 md:px-6 md:pt-24 md:pb-36">
         <div className="flex max-w-3xl flex-col gap-5 md:gap-6">
           <p className="flex items-center gap-2.5 text-xs font-semibold tracking-[0.08em] text-sunflower-gold uppercase md:text-sm">
             <span className="hidden h-0.5 w-7 bg-sunflower-gold md:block" />
@@ -61,7 +61,8 @@ export default function HeroVideo() {
             </a>
           </div>
           <p className="text-center text-sm text-deep-space-blue-900 sm:text-left md:text-[15px]">
-            Written quote before any work starts.
+            <span className="font-semibold text-sunflower-gold">Free install estimates</span> in{" "}
+            {SITE.estimates.coreArea} · Written quote before any work starts.
           </p>
         </div>
       </div>
