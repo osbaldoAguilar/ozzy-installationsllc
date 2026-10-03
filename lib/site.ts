@@ -3,7 +3,7 @@ export const SITE = {
   name: "Ozzy Installations",
   owner: "Osbaldo",
   phone: { display: "(919) 816-6563", href: "tel:+19198166563" },
-  email: "hello@example.com",
+  email: "contact@ozzyinstallationsllc.com", // forwards to the lead inbox (ImprovMX, free)
   instagram: {
     handle: "@ozzyinstallationsllc",
     href: "https://www.instagram.com/ozzyinstallationsllc/",
