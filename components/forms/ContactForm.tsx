@@ -6,6 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Call02Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 
 import { submitLead, type LeadFormState } from "@/app/(marketing)/contact/actions";
+import PhotoPicker from "@/components/forms/PhotoPicker";
 import { buttonVariants } from "@/components/ui/button";
 import {
   INSTALLATION_TYPE_LABELS,
@@ -39,6 +40,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
   const [state, formAction, pending] = useActionState<LeadFormState, FormData>(submitLead, {
     status: "idle",
   });
+  const [uploading, setUploading] = useState(false);
   const [service, setService] = useState<ServiceType | "">(
     isService(initialService) ? initialService : "",
   );
@@ -235,20 +237,9 @@ export default function ContactForm({ initialService }: { initialService?: strin
         <FieldError id="message-error" errors={err("message")} />
       </div>
 
-      {/* TODO (Phase 2): upload straight to Cloudinary (signed) — photos are too big for a
-          Server Action body (1MB). Unnamed for now so files are never posted. */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="photos" className={LABEL}>
-          Photos of the space
-          <span className="font-normal text-muted-foreground"> (optional, helps us quote faster)</span>
-        </label>
-        <input
-          id="photos"
-          type="file"
-          accept="image/*"
-          multiple
-          className="min-h-12 rounded-[10px] border border-dashed border-border bg-section px-3.5 py-2.5 text-[15px] file:mr-3 file:rounded-full file:border-0 file:bg-deep-space-blue file:px-3.5 file:py-1.5 file:text-sm file:font-semibold file:text-vanilla-custard-900"
-        />
+        <PhotoPicker onBusyChange={setUploading} />
+        <FieldError id="photoUrls-error" errors={err("photoUrls")} />
       </div>
 
       {/* Honeypot — hidden from people and screen readers; bots fill it. */}
@@ -263,10 +254,10 @@ export default function ContactForm({ initialService }: { initialService?: strin
         </p>
         <button
           type="submit"
-          disabled={pending}
+          disabled={pending || uploading}
           className={cn(buttonVariants(), "h-13 px-8 text-[17px] font-semibold")}
         >
-          {pending ? "Sending…" : "Send request"}
+          {pending ? "Sending…" : uploading ? "Uploading photos…" : "Send request"}
         </button>
       </div>
     </form>
