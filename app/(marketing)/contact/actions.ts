@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 
+import { signLeadPhotoUpload } from "@/lib/cloudinary-server";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 import { sendLeadEmail } from "@/lib/email/lead";
@@ -34,7 +35,8 @@ export async function submitLead(
   const values = Object.fromEntries(
     FIELDS.map((f) => [f, String(formData.get(f) ?? "")]),
   );
-  const parsed = leadSchema.safeParse(values);
+  const photoUrls = formData.getAll("photoUrls").map(String);
+  const parsed = leadSchema.safeParse({ ...values, photoUrls });
 
   if (!parsed.success) {
     return {
@@ -64,4 +66,9 @@ export async function submitLead(
   // Saved either way; only claim "we've got it" once the owner has actually been emailed.
   const emailed = await sendLeadEmail(parsed.data, leadId);
   return { status: emailed ? "sent" : "saved" };
+}
+
+/** Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts). */
+export async function signPhotoUpload() {
+  return signLeadPhotoUpload();
 }
