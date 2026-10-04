@@ -26,7 +26,7 @@ export default function About() {
             title={`A family business with ${yearsInTrade()} years behind it`}
           />
           <p className="max-w-2xl leading-relaxed text-muted-foreground md:text-lg">
-            {SITE.owner} started as a fireplace installer in {SITE.experienceSince}. Over{" "}
+            Our owner started as a fireplace installer in {SITE.experienceSince}. Over{" "}
             {SITE.foundedYear - SITE.experienceSince} years on the job he installed just about
             every kind of fireplace and hearth product — wood stoves, thru-roof venting, gas
             inserts, electric units and everything in between.
@@ -35,7 +35,7 @@ export default function About() {
             In {SITE.foundedYear} he opened {SITE.name} as a family business. Those years in the
             trade built the supplier relationships that let us offer every type of fireplace, not
             just one brand. Today it&apos;s still family-owned and family-run, and every job
-            carries {SITE.owner}&apos;s name.
+            carries his name.
           </p>
           <Link
             href="/about"

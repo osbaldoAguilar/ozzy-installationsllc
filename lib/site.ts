@@ -1,7 +1,7 @@
 // Public business info shown on the site. Not secrets — keep env vars for those.
 export const SITE = {
   name: "Ozzy Installations",
-  owner: "Osbaldo",
+  url: "https://ozzyinstallationsllc.com",
   phone: { display: "(919) 816-6563", href: "tel:+19198166563" },
   instagram: {
     handle: "@ozzyinstallationsllc",

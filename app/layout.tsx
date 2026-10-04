@@ -12,12 +12,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Absolute base for share images and links (app/opengraph-image.jpg, sitemap).
+  metadataBase: new URL(SITE.url),
   title: {
     template: "%s | Ozzy Installations",
     default: "Ozzy Installations — Fireplace & hearth installers in the Triangle, NC",
   },
   description:
     `Family-owned fireplace installers serving Raleigh, Durham, Cary and Wake Forest, installing fireplaces since ${SITE.experienceSince}. Gas, wood and electric fireplaces, chimney caps, hearths and mantels.`,
+  openGraph: { type: "website", siteName: SITE.name, locale: "en_US" },
 };
 
 export default function RootLayout({

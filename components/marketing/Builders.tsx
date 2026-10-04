@@ -34,7 +34,7 @@ export default function Builders() {
             title="A fireplace crew you can schedule around"
           >
             <p className="leading-relaxed text-muted-foreground md:text-lg">
-              {SITE.owner} spent {SITE.foundedYear - SITE.experienceSince} years as a fireplace
+              Our owner spent {SITE.foundedYear - SITE.experienceSince} years as a fireplace
               installer before starting {SITE.name}. We know how a build runs and where the
               fireplace fits in it.
             </p>
