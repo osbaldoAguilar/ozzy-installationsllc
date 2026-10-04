@@ -15,7 +15,7 @@ export const SITE = {
     creditedToJob: true,
   },
   foundedYear: 2023,
-  experienceSince: 2008,
+  experienceSince: 2006,
   // Pre-winter "book a service call" bar at the top of every page.
   seasonBanner: true,
 } as const;

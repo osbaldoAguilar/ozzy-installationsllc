@@ -146,7 +146,7 @@ Editable by the owner in the embedded Studio (`/studio`). Everything *not* here 
   `body` (portable text), `image`, `order`.
 - **`portfolioItem`** — `title`, `images[]`, `category`, `description`, `completedDate`.
 - **`siteCopy`** (singletons) — Home hero copy, About story, **two distinct dates**
-  (fireplace experience since **2008**, company founded **2020**), trust-band stats, service area.
+  (fireplace experience since **2006**, company founded **2023**), trust-band stats, service area.
 
 Images ride Sanity's asset CDN, rendered through `next/image`.
 

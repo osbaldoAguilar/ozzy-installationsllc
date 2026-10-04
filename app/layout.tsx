@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Figtree, Fraunces } from "next/font/google";
 import "./globals.css";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     default: "Ozzy Installations — Fireplace & hearth installers in the Triangle, NC",
   },
   description:
-    "Family-owned fireplace installers serving Raleigh, Durham, Cary and Wake Forest since 2008. Gas, wood and electric fireplaces, chimney caps, hearths and mantels.",
+    `Family-owned fireplace installers serving Raleigh, Durham, Cary and Wake Forest, installing fireplaces since ${SITE.experienceSince}. Gas, wood and electric fireplaces, chimney caps, hearths and mantels.`,
 };
 
 export default function RootLayout({
