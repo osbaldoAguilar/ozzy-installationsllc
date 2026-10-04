@@ -52,9 +52,6 @@ export default function SectionFooter() {
             <a href={SITE.phone.href} className="hover:text-vanilla-custard-900">
               {SITE.phone.display}
             </a>
-            <a href={`mailto:${SITE.email}`} className="hover:text-vanilla-custard-900">
-              {SITE.email}
-            </a>
             <span>{SITE.serviceArea.join(" · ")}</span>
             <a href={SITE.instagram.href} className="hover:text-vanilla-custard-900">
               Instagram · {SITE.instagram.handle}
