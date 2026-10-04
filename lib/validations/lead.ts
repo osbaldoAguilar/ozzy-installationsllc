@@ -15,7 +15,8 @@ const INSTALLATION_TYPES = Object.values(installationType);
 const optional = <T extends z.ZodType>(schema: T) =>
   z.preprocess((v) => (v === "" || v === null ? undefined : v), schema.optional());
 
-// Same schema on the client (HTML attrs mirror it) and the server action (source of truth).
+// Runs on the server only (the action is the source of truth). The form inputs use matching
+// HTML attributes (required, type="email", minLength) for quick feedback in the browser.
 export const leadSchema = z
   .object({
     name: z.string().trim().min(2, "Please enter your name.").max(100),
