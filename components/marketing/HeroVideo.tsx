@@ -37,10 +37,10 @@ export default function HeroVideo() {
             {yearsInTrade()} years installing fireplaces. Now under our own name.
           </h1>
           <p className="max-w-xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
-            {SITE.owner} has installed fireplaces across the Triangle since{" "}
+            Our owner has installed fireplaces across the Triangle since{" "}
             {SITE.experienceSince}. In {SITE.foundedYear} he started {SITE.name} with his
             family, so homeowners and builders deal directly with a family business — and{" "}
-            {SITE.owner} stands behind every job.
+            he stands behind every job.
           </p>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row">
             <Link

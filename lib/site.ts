@@ -2,7 +2,6 @@
 export const SITE = {
   name: "Ozzy Installations",
   url: "https://ozzyinstallationsllc.com",
-  owner: "Osbaldo",
   phone: { display: "(919) 816-6563", href: "tel:+19198166563" },
   instagram: {
     handle: "@ozzyinstallationsllc",

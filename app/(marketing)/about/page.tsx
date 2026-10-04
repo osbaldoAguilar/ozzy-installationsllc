@@ -24,7 +24,7 @@ const yearsBeforeFounding = SITE.foundedYear - SITE.experienceSince;
 const TIMELINE = [
   {
     year: String(SITE.experienceSince),
-    text: `${SITE.owner} starts installing fireplaces.`,
+    text: "Our owner starts installing fireplaces.",
   },
   {
     year: String(SITE.foundedYear),
@@ -55,7 +55,7 @@ const PROMISES = [
   {
     icon: CheckmarkBadge01Icon,
     title: "A name behind every job",
-    body: `${SITE.name} carries ${SITE.owner}'s name, and he stands behind every install.`,
+    body: `${SITE.name} carries the owner's name, and he stands behind every install.`,
   },
 ];
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
         position="object-[35%_40%]"
       >
         <p className="max-w-xl text-[17px] leading-relaxed text-vanilla-custard md:text-xl">
-          {SITE.name} is new as a name, not as a crew. {SITE.owner} has been installing
+          {SITE.name} is new as a name, not as a crew. Our owner has been installing
           fireplaces since {SITE.experienceSince}.
         </p>
       </PageHero>
@@ -109,7 +109,7 @@ export default function AboutPage() {
           <div className="flex min-w-0 flex-[999_1_420px] flex-col gap-5">
             <SectionHeading eyebrow="Our story" title="Learned on the job, now under our own name" />
             <p className="max-w-2xl leading-relaxed text-muted-foreground md:text-lg">
-              {SITE.owner} started as a fireplace installer in {SITE.experienceSince}. Over{" "}
+              Our owner started as a fireplace installer in {SITE.experienceSince}. Over{" "}
               {yearsBeforeFounding} years on the job he installed just about every kind of
               fireplace and hearth product — wood stoves, thru-roof venting, gas inserts, electric
               units and everything in between.
@@ -118,7 +118,7 @@ export default function AboutPage() {
               In {SITE.foundedYear} he opened {SITE.name} as a family business. Those years in the
               trade built the supplier relationships that let us offer every type of fireplace,
               not just one brand. Today it&apos;s still family-owned and family-run, and every job
-              carries {SITE.owner}&apos;s name.
+              carries his name.
             </p>
           </div>
         </div>

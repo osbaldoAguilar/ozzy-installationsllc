@@ -2,7 +2,7 @@ import { SITE } from "@/lib/site";
 
 const STATS = [
   { value: String(SITE.experienceSince), label: "Installing fireplaces since" },
-  { value: "Family-owned", label: `${SITE.owner} stands behind every install` },
+  { value: "Family-owned", label: "The owner stands behind every install" },
   { value: "In writing", label: "Your quote, before work starts" },
   { value: "The Triangle", label: SITE.serviceArea.join(" · ") },
 ];
