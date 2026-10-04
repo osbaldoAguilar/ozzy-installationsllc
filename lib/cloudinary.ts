@@ -8,6 +8,14 @@ export function cldUrl(publicId: string, transforms = "f_auto,q_auto") {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
 }
 
+// Customer photos from the estimate form (uploaded by the browser, signed in lib/cloudinary-server.ts).
+export const LEAD_PHOTO_FOLDER = "leads";
+export const LEAD_PHOTO_MAX = 6;
+// Only https links into our own cloud's leads/ folder are accepted on submit.
+export const LEAD_PHOTO_URL = new RegExp(
+  `^https://res\\.cloudinary\\.com/${CLOUD_NAME}/image/upload/(v\\d+/)?${LEAD_PHOTO_FOLDER}/[\\w-]+\\.(jpe?g|png|webp|heic|heif)$`,
+);
+
 // White logo (site/watermark) in the bottom-right corner, 16% of the image width.
 // Applied on delivery, so the originals in Cloudinary stay clean.
 export const WATERMARK =

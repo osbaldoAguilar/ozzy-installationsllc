@@ -8,6 +8,7 @@ import {
   type ServiceSubtype,
   type ServiceType,
 } from "@/lib/services";
+import { LEAD_PHOTO_MAX, LEAD_PHOTO_URL } from "@/lib/cloudinary";
 
 const INSTALLATION_TYPES = Object.values(installationType);
 
@@ -28,6 +29,11 @@ export const leadSchema = z
     serviceSubtype: optional(z.enum(SERVICE_SUBTYPES as [ServiceSubtype, ...ServiceSubtype[]])),
     installationType: optional(z.enum(INSTALLATION_TYPES)),
     message: optional(z.string().trim().max(2000, "Please keep it under 2,000 characters.")),
+    // Links to photos the browser already uploaded to our Cloudinary leads/ folder.
+    photoUrls: z
+      .array(z.string().regex(LEAD_PHOTO_URL, "One of the photos didn't upload correctly."))
+      .max(LEAD_PHOTO_MAX, `Please attach up to ${LEAD_PHOTO_MAX} photos.`)
+      .default([]),
   })
   .refine(
     (lead) => {

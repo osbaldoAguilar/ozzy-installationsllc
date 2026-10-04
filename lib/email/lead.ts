@@ -37,6 +37,8 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
   if (!apiKey || to.length === 0) return false;
 
   const { service, rows } = describe(lead);
+  const photos = lead.photoUrls ?? [];
+  const thumb = (url: string) => url.replace("/image/upload/", "/image/upload/c_fill,w_160,h_160,q_auto,f_jpg/");
   const phoneHref = lead.phone ? `tel:${lead.phone.replace(/[^\d+]/g, "")}` : null;
 
   const html = `
@@ -51,13 +53,29 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
       )
       .join("")}
   </table>
+  ${
+    photos.length
+      ? `<p style="margin:20px 0 8px;color:#4c6e80">Photos (${photos.length}), tap to open full size</p>
+  <div>${photos
+    .map(
+      (url) =>
+        `<a href="${escape(url)}" style="display:inline-block;margin:0 8px 8px 0"><img src="${escape(thumb(url))}" width="80" height="80" alt="Customer photo" style="border-radius:8px;display:block"></a>`,
+    )
+    .join("")}</div>`
+      : ""
+  }
   <p style="margin:24px 0 0">
     ${phoneHref ? `<a href="${phoneHref}" style="background:#f77f00;color:#002539;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:600">Call ${escape(lead.phone!)}</a>&nbsp;&nbsp;` : ""}
     <a href="mailto:${escape(lead.email)}" style="color:#002539;font-weight:600">Reply by email</a>
   </p>
 </div>`;
 
-  const text = [`New lead: ${lead.name} (${service})`, "", ...rows.map(([l, v]) => `${l}: ${v}`)].join("\n");
+  const text = [
+    `New lead: ${lead.name} (${service})`,
+    "",
+    ...rows.map(([l, v]) => `${l}: ${v}`),
+    ...(photos.length ? ["", "Photos:", ...photos] : []),
+  ].join("\n");
 
   // Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
   try {
