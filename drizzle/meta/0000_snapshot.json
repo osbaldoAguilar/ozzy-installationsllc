@@ -1,0 +1,164 @@
+{
+  "id": "61daa7ff-c1f5-4bb2-be65-627fa4a8f5c0",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.leads": {
+      "name": "leads",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "service_type": {
+          "name": "service_type",
+          "type": "service_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "service_subtype": {
+          "name": "service_subtype",
+          "type": "service_subtype",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "installation_type": {
+          "name": "installation_type",
+          "type": "installation_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "photo_urls": {
+          "name": "photo_urls",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'"
+        },
+        "source": {
+          "name": "source",
+          "type": "lead_source",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'form'"
+        },
+        "status": {
+          "name": "status",
+          "type": "lead_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'new'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.installation_type": {
+      "name": "installation_type",
+      "schema": "public",
+      "values": [
+        "new_construction",
+        "remodel",
+        "commercial_construction"
+      ]
+    },
+    "public.lead_source": {
+      "name": "lead_source",
+      "schema": "public",
+      "values": [
+        "form",
+        "chatbot"
+      ]
+    },
+    "public.lead_status": {
+      "name": "lead_status",
+      "schema": "public",
+      "values": [
+        "new",
+        "contacted",
+        "scheduled",
+        "closed"
+      ]
+    },
+    "public.service_subtype": {
+      "name": "service_subtype",
+      "schema": "public",
+      "values": [
+        "direct_vent",
+        "thru_roof",
+        "thru_chase",
+        "vent_free",
+        "brick_mortar"
+      ]
+    },
+    "public.service_type": {
+      "name": "service_type",
+      "schema": "public",
+      "values": [
+        "fireplace_installation",
+        "chimney_cap",
+        "hearth_mantel",
+        "service_call",
+        "other_services"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
