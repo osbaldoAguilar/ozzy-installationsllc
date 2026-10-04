@@ -1,3 +1,4 @@
+import BusinessJsonLd from "@/components/marketing/BusinessJsonLd";
 import SeasonBanner from "@/components/marketing/SeasonBanner";
 import SectionHeader from "@/components/marketing/SectionHeader";
 import SectionFooter from "@/components/marketing/SectionFooter";
@@ -6,6 +7,7 @@ import MobileCallBar from "@/components/marketing/MobileCallBar";
 export default function MarketingLayout({ children }: LayoutProps<"/">) {
   return (
     <>
+      <BusinessJsonLd />
       <SeasonBanner />
       <SectionHeader/>
       <main className="flex-1">{children}</main>
