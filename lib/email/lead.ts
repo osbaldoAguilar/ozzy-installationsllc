@@ -3,7 +3,7 @@ import "server-only";
 import { INSTALLATION_TYPE_LABELS, SERVICE_CATEGORIES } from "@/lib/services";
 import type { Lead } from "@/lib/validations/lead";
 
-import { SITE } from "@/lib/site";
+import { renderLeadConfirmation } from "@/lib/email/confirmation";
 
 // Verified sending domain in Resend (DNS lives at Squarespace). Nobody reads these mailboxes,
 // so every email sets reply_to to a real person.
@@ -126,46 +126,14 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
   );
 }
 
-/**
- * "We got your request" auto-reply to the customer. The address is whatever someone typed into
- * a public form, so the content is fixed text only (no name or message echoed back): the form
- * can't be used to send someone else's words to a stranger's inbox.
- */
+/** "We received your request" auto-reply to the customer. Content lives in ./confirmation.ts. */
 export async function sendLeadConfirmation(lead: Lead, leadId: string): Promise<boolean> {
   // Customer replies go to the business inbox once it exists, else to the owners directly.
   const replyTo = process.env.CONTACT_REPLY_TO?.trim() || ownerInboxes();
   if (replyTo.length === 0) return false;
 
-  const service = SERVICE_CATEGORIES[lead.serviceType].label;
-  const { replyWindow } = SITE.leads;
-  const html = `
-<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#002539;max-width:560px;font-size:15px;line-height:1.5">
-  <h2 style="margin:0 0 12px">We got your request</h2>
-  <p>Thanks for contacting ${SITE.name}. We received your request for <strong>${escape(service)}</strong> and will get back to you within ${replyWindow}, often sooner.</p>
-  <p>Need us sooner? Call <a href="${SITE.phone.href}" style="color:#002539;font-weight:600">${SITE.phone.display}</a>.</p>
-  <p>You can reply to this email to add details or photos.</p>
-  <p style="margin-top:24px;color:#4c6e80">${SITE.name}<br><a href="${SITE.url}" style="color:#4c6e80">${SITE.url.replace("https://", "")}</a></p>
-</div>`;
-  const text = [
-    `Thanks for contacting ${SITE.name}. We received your request for ${service}`,
-    `and will get back to you within ${replyWindow}, often sooner.`,
-    "",
-    `Need us sooner? Call ${SITE.phone.display}.`,
-    "You can reply to this email to add details or photos.",
-    "",
-    SITE.name,
-    SITE.url,
-  ].join("\n");
-
   return sendEmail(
-    {
-      from: CONFIRMATION_FROM,
-      to: [lead.email],
-      reply_to: replyTo,
-      subject: `We received your request | ${SITE.name}`,
-      html,
-      text,
-    },
+    { from: CONFIRMATION_FROM, to: [lead.email], reply_to: replyTo, ...renderLeadConfirmation(lead) },
     `lead-confirm-${leadId}`,
     "lead-confirm",
   );
