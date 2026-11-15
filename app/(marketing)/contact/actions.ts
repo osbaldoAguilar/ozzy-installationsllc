@@ -5,7 +5,7 @@ import { z } from "zod";
 import { signLeadPhotoUpload } from "@/lib/cloudinary-server";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
-import { sendLeadEmail } from "@/lib/email/lead";
+import { sendLeadConfirmation, sendLeadEmail } from "@/lib/email/lead";
 import { leadSchema, type LeadField } from "@/lib/validations/lead";
 
 export type LeadFormState = {
@@ -65,6 +65,9 @@ export async function submitLead(
 
   // Saved either way; only claim "we've got it" once the owner has actually been emailed.
   const emailed = await sendLeadEmail(parsed.data, leadId);
+  // Only promise a reply time once the owners have been told. A failed auto-reply doesn't
+  // change what the customer sees: their lead is already saved and the owners notified.
+  if (emailed) await sendLeadConfirmation(parsed.data, leadId);
   return { status: emailed ? "sent" : "saved" };
 }
 

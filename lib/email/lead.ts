@@ -3,8 +3,48 @@ import "server-only";
 import { INSTALLATION_TYPE_LABELS, SERVICE_CATEGORIES } from "@/lib/services";
 import type { Lead } from "@/lib/validations/lead";
 
-// Verified sending domain in Resend (DNS lives at Squarespace).
+import { SITE } from "@/lib/site";
+
+// Verified sending domain in Resend (DNS lives at Squarespace). Nobody reads these mailboxes,
+// so every email sets reply_to to a real person.
 const FROM = "Ozzy Installations Website <leads@contact.ozzyinstallationsllc.com>";
+const CONFIRMATION_FROM = "Ozzy Installations <hello@contact.ozzyinstallationsllc.com>";
+
+/** Everyone who gets lead emails. Either var may also hold a comma-separated list. */
+function ownerInboxes() {
+  return [process.env.CONTACT_NOTIFICATION_EMAIL, process.env.CONTACT_NOTIFICATION_EMAIL_TWO]
+    .flatMap((v) => (v ?? "").split(","))
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+type Email = { from: string; to: string[]; reply_to: string | string[]; subject: string; html: string; text: string };
+
+// Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
+// Returns false (never throws). Note: true means Resend accepted it, not that it was delivered.
+async function sendEmail(email: Email, idempotencyKey: string, label: string): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey, // a retried submit never double-emails
+      },
+      body: JSON.stringify(email),
+    });
+    if (!res.ok) {
+      console.error(`[${label}] email failed:`, res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(`[${label}] email failed:`, error);
+    return false;
+  }
+}
 
 const escape = (s: string) =>
   s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -28,13 +68,8 @@ function describe(lead: Lead) {
 
 /** Emails the owner about a new lead. Returns false (never throws) so the lead flow can fall back. */
 export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  // Everyone who gets lead emails. Either var may also hold a comma-separated list.
-  const to = [process.env.CONTACT_NOTIFICATION_EMAIL, process.env.CONTACT_NOTIFICATION_EMAIL_TWO]
-    .flatMap((v) => (v ?? "").split(","))
-    .map((v) => v.trim())
-    .filter(Boolean);
-  if (!apiKey || to.length === 0) return false;
+  const to = ownerInboxes();
+  if (to.length === 0) return false;
 
   const { service, rows } = describe(lead);
   const photos = lead.photoUrls ?? [];
@@ -77,31 +112,61 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
     ...(photos.length ? ["", "Photos:", ...photos] : []),
   ].join("\n");
 
-  // Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": `lead-${leadId}`, // a retried submit never double-emails
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to, // already a list of addresses
-        reply_to: lead.email, // hitting Reply answers the customer directly
-        subject: `New lead: ${lead.name} · ${service}`,
-        html,
-        text,
-      }),
-    });
-    if (!res.ok) {
-      console.error("[lead] email failed:", res.status, await res.text());
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.error("[lead] email failed:", error);
-    return false;
-  }
+  return sendEmail(
+    {
+      from: FROM,
+      to,
+      reply_to: lead.email, // hitting Reply answers the customer directly
+      subject: `New lead: ${lead.name} · ${service}`,
+      html,
+      text,
+    },
+    `lead-${leadId}`,
+    "lead",
+  );
+}
+
+/**
+ * "We got your request" auto-reply to the customer. The address is whatever someone typed into
+ * a public form, so the content is fixed text only (no name or message echoed back): the form
+ * can't be used to send someone else's words to a stranger's inbox.
+ */
+export async function sendLeadConfirmation(lead: Lead, leadId: string): Promise<boolean> {
+  // Customer replies go to the business inbox once it exists, else to the owners directly.
+  const replyTo = process.env.CONTACT_REPLY_TO?.trim() || ownerInboxes();
+  if (replyTo.length === 0) return false;
+
+  const service = SERVICE_CATEGORIES[lead.serviceType].label;
+  const { replyWindow } = SITE.leads;
+  const html = `
+<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#002539;max-width:560px;font-size:15px;line-height:1.5">
+  <h2 style="margin:0 0 12px">We got your request</h2>
+  <p>Thanks for contacting ${SITE.name} about <strong>${escape(service)}</strong>. Your request came through, and we'll get back to you within ${replyWindow}, often sooner.</p>
+  <p>Need us sooner? Call <a href="${SITE.phone.href}" style="color:#002539;font-weight:600">${SITE.phone.display}</a>.</p>
+  <p>You can reply to this email to add details or photos.</p>
+  <p style="margin-top:24px;color:#4c6e80">${SITE.name}<br><a href="${SITE.url}" style="color:#4c6e80">${SITE.url.replace("https://", "")}</a></p>
+</div>`;
+  const text = [
+    `Thanks for contacting ${SITE.name} about ${service}.`,
+    `Your request came through, and we'll get back to you within ${replyWindow}, often sooner.`,
+    "",
+    `Need us sooner? Call ${SITE.phone.display}.`,
+    "You can reply to this email to add details or photos.",
+    "",
+    SITE.name,
+    SITE.url,
+  ].join("\n");
+
+  return sendEmail(
+    {
+      from: CONFIRMATION_FROM,
+      to: [lead.email],
+      reply_to: replyTo,
+      subject: `We got your request, ${SITE.name}`,
+      html,
+      text,
+    },
+    `lead-confirm-${leadId}`,
+    "lead-confirm",
+  );
 }
