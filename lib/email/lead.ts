@@ -141,14 +141,14 @@ export async function sendLeadConfirmation(lead: Lead, leadId: string): Promise<
   const html = `
 <div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#002539;max-width:560px;font-size:15px;line-height:1.5">
   <h2 style="margin:0 0 12px">We got your request</h2>
-  <p>Thanks for contacting ${SITE.name} about <strong>${escape(service)}</strong>. Your request came through, and we'll get back to you within ${replyWindow}, often sooner.</p>
+  <p>Thanks for contacting ${SITE.name}. We received your request for <strong>${escape(service)}</strong> and will get back to you within ${replyWindow}, often sooner.</p>
   <p>Need us sooner? Call <a href="${SITE.phone.href}" style="color:#002539;font-weight:600">${SITE.phone.display}</a>.</p>
   <p>You can reply to this email to add details or photos.</p>
   <p style="margin-top:24px;color:#4c6e80">${SITE.name}<br><a href="${SITE.url}" style="color:#4c6e80">${SITE.url.replace("https://", "")}</a></p>
 </div>`;
   const text = [
-    `Thanks for contacting ${SITE.name} about ${service}.`,
-    `Your request came through, and we'll get back to you within ${replyWindow}, often sooner.`,
+    `Thanks for contacting ${SITE.name}. We received your request for ${service}`,
+    `and will get back to you within ${replyWindow}, often sooner.`,
     "",
     `Need us sooner? Call ${SITE.phone.display}.`,
     "You can reply to this email to add details or photos.",
@@ -162,7 +162,7 @@ export async function sendLeadConfirmation(lead: Lead, leadId: string): Promise<
       from: CONFIRMATION_FROM,
       to: [lead.email],
       reply_to: replyTo,
-      subject: `We got your request, ${SITE.name}`,
+      subject: `We received your request | ${SITE.name}`,
       html,
       text,
     },
