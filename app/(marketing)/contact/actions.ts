@@ -1,11 +1,13 @@
 "use server";
 
+import { checkBotId } from "botid/server";
 import { z } from "zod";
 
 import { signLeadPhotoUpload } from "@/lib/cloudinary-server";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
-import { sendLeadEmail } from "@/lib/email/lead";
+import { checkConfirmation } from "@/lib/email/confirmation-guard";
+import { sendLeadConfirmation, sendLeadEmail } from "@/lib/email/lead";
 import { leadSchema, type LeadField } from "@/lib/validations/lead";
 
 export type LeadFormState = {
@@ -35,6 +37,14 @@ export async function submitLead(
   const values = Object.fromEntries(
     FIELDS.map((f) => [f, String(formData.get(f) ?? "")]),
   );
+
+  // BotID (see instrumentation-client.ts). A misjudged person keeps their answers and is asked to call.
+  const { isBot } = await checkBotId();
+  if (isBot) {
+    console.warn("[lead] blocked by BotID");
+    return { status: "unavailable", values };
+  }
+
   const photoUrls = formData.getAll("photoUrls").map(String);
   const parsed = leadSchema.safeParse({ ...values, photoUrls });
 
@@ -65,10 +75,22 @@ export async function submitLead(
 
   // Saved either way; only claim "we've got it" once the owner has actually been emailed.
   const emailed = await sendLeadEmail(parsed.data, leadId);
+  // Customer auto-reply only after the owner's been told, so we never promise a reply nobody's seen.
+  if (emailed) {
+    const check = await checkConfirmation(parsed.data.email);
+    if (check.send) await sendLeadConfirmation(parsed.data, leadId);
+    else console.warn("[lead] auto-reply skipped:", check.reason, leadId);
+  }
   return { status: emailed ? "sent" : "saved" };
 }
 
 /** Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts). */
 export async function signPhotoUpload() {
+  // No signature for bots. A misjudged person sees "Failed" on the photo and can still send.
+  const { isBot } = await checkBotId();
+  if (isBot) {
+    console.warn("[lead] photo upload blocked by BotID");
+    return null;
+  }
   return signLeadPhotoUpload();
 }

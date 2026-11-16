@@ -1,13 +1,57 @@
 import "server-only";
 
+import { renderLeadConfirmation } from "@/lib/email/confirmation";
+import { escape } from "@/lib/email/escape";
 import { INSTALLATION_TYPE_LABELS, SERVICE_CATEGORIES } from "@/lib/services";
 import type { Lead } from "@/lib/validations/lead";
 
-// Verified sending domain in Resend (DNS lives at Squarespace).
+// Verified sending domain in Resend (DNS lives at Squarespace). Nobody reads these mailboxes,
+// so every email sets reply_to to a real person.
 const FROM = "Ozzy Installations Website <leads@contact.ozzyinstallationsllc.com>";
+const CONFIRMATION_FROM = "Ozzy Installations <hello@contact.ozzyinstallationsllc.com>";
 
-const escape = (s: string) =>
-  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+/** Everyone who gets lead emails. Either var may also hold a comma-separated list. */
+function ownerInboxes() {
+  return [process.env.CONTACT_NOTIFICATION_EMAIL, process.env.CONTACT_NOTIFICATION_EMAIL_TWO]
+    .flatMap((v) => (v ?? "").split(","))
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+type Email = {
+  from: string;
+  to: string[];
+  reply_to: string | string[];
+  subject: string;
+  html: string;
+  text: string;
+};
+
+// Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
+// true only means Resend accepted it, not that it was delivered (see Resend → Emails).
+async function sendEmail(email: Email, idempotencyKey: string, label: string): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey, // a retried submit never double-emails
+      },
+      body: JSON.stringify(email),
+    });
+    if (!res.ok) {
+      console.error(`[${label}] email failed:`, res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(`[${label}] email failed:`, error);
+    return false;
+  }
+}
 
 function describe(lead: Lead) {
   const service = SERVICE_CATEGORIES[lead.serviceType];
@@ -28,13 +72,8 @@ function describe(lead: Lead) {
 
 /** Emails the owner about a new lead. Returns false (never throws) so the lead flow can fall back. */
 export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  // Everyone who gets lead emails. Either var may also hold a comma-separated list.
-  const to = [process.env.CONTACT_NOTIFICATION_EMAIL, process.env.CONTACT_NOTIFICATION_EMAIL_TWO]
-    .flatMap((v) => (v ?? "").split(","))
-    .map((v) => v.trim())
-    .filter(Boolean);
-  if (!apiKey || to.length === 0) return false;
+  const to = ownerInboxes();
+  if (to.length === 0) return false;
 
   const { service, rows } = describe(lead);
   const photos = lead.photoUrls ?? [];
@@ -77,31 +116,29 @@ export async function sendLeadEmail(lead: Lead, leadId: string): Promise<boolean
     ...(photos.length ? ["", "Photos:", ...photos] : []),
   ].join("\n");
 
-  // Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": `lead-${leadId}`, // a retried submit never double-emails
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to, // already a list of addresses
-        reply_to: lead.email, // hitting Reply answers the customer directly
-        subject: `New lead: ${lead.name} · ${service}`,
-        html,
-        text,
-      }),
-    });
-    if (!res.ok) {
-      console.error("[lead] email failed:", res.status, await res.text());
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.error("[lead] email failed:", error);
-    return false;
-  }
+  return sendEmail(
+    {
+      from: FROM,
+      to,
+      reply_to: lead.email, // hitting Reply answers the customer directly
+      subject: `New lead: ${lead.name} · ${service}`,
+      html,
+      text,
+    },
+    `lead-${leadId}`,
+    "lead",
+  );
+}
+
+/** "We received your request" auto-reply to the customer. Content lives in ./confirmation.ts. */
+export async function sendLeadConfirmation(lead: Lead, leadId: string): Promise<boolean> {
+  // Customer replies go to the business inbox once it exists, else to the owners directly.
+  const replyTo = process.env.CONTACT_REPLY_TO?.trim() || ownerInboxes();
+  if (replyTo.length === 0) return false;
+
+  return sendEmail(
+    { from: CONFIRMATION_FROM, to: [lead.email], reply_to: replyTo, ...renderLeadConfirmation(lead) },
+    `lead-confirm-${leadId}`,
+    "lead-confirm",
+  );
 }

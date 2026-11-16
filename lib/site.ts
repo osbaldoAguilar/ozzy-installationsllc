@@ -14,6 +14,8 @@ export const SITE = {
     diagnosticFee: 95,  // service calls
     creditedToJob: true,
   },
+  // Promised in the "we got your request" auto-reply.
+  leads: { replyWindow: "12–48 hours" },
   foundedYear: 2023,
   experienceSince: 2006,
   // Pre-winter "book a service call" bar at the top of every page.
