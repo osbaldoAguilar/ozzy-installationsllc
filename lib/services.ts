@@ -46,6 +46,16 @@ export type ServiceSubtype = {
     : keyof NonNullable<(typeof SERVICE_CATEGORIES)[K]["subtypes"]>;
 }[ServiceType];
 
+// One-line descriptions, shown on the services section and used by the chatbot.
+export const SERVICE_BLURBS: Record<ServiceType, string> = {
+  fireplace_installation:
+    "Gas, wood and electric units sized, vented and finished for the room — installed to code, with the venting your home actually allows.",
+  chimney_cap: "Worn or missing caps replaced to keep out rain, debris and animals.",
+  hearth_mantel: "The finish work that turns a firebox into the centerpiece of the room.",
+  service_call: "Won't light, won't stay lit, or something's off — we diagnose and repair.",
+  other_services: "Wood stoves, gas inserts, electric fireplaces and other hearth products.",
+};
+
 export const SERVICE_TYPES = Object.keys(SERVICE_CATEGORIES) as ServiceType[];
 export const SERVICE_SUBTYPES = Object.values(SERVICE_CATEGORIES).flatMap(
   (c) => (c.subtypes ? Object.keys(c.subtypes) : []),

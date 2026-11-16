@@ -5,16 +5,7 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import CloudinaryImage from "@/components/CloudinaryImage";
 import SectionHeading from "@/components/marketing/SectionHeading";
 import { SERVICE_PHOTOS } from "@/lib/cloudinary";
-import { SERVICE_CATEGORIES, type ServiceType } from "@/lib/services";
-
-export const SERVICE_BLURBS: Record<ServiceType, string> = {
-  fireplace_installation:
-    "Gas, wood and electric units sized, vented and finished for the room — installed to code, with the venting your home actually allows.",
-  chimney_cap: "Worn or missing caps replaced to keep out rain, debris and animals.",
-  hearth_mantel: "The finish work that turns a firebox into the centerpiece of the room.",
-  service_call: "Won't light, won't stay lit, or something's off — we diagnose and repair.",
-  other_services: "Wood stoves, gas inserts, electric fireplaces and other hearth products.",
-};
+import { SERVICE_BLURBS, SERVICE_CATEGORIES } from "@/lib/services";
 
 const OTHERS = ["chimney_cap", "hearth_mantel", "service_call", "other_services"] as const;
 
