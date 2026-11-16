@@ -1,10 +1,12 @@
 "use server";
 
+import { checkBotId } from "botid/server";
 import { z } from "zod";
 
 import { signLeadPhotoUpload } from "@/lib/cloudinary-server";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
+import { checkConfirmation } from "@/lib/email/confirmation-guard";
 import { sendLeadConfirmation, sendLeadEmail } from "@/lib/email/lead";
 import { leadSchema, type LeadField } from "@/lib/validations/lead";
 
@@ -35,6 +37,14 @@ export async function submitLead(
   const values = Object.fromEntries(
     FIELDS.map((f) => [f, String(formData.get(f) ?? "")]),
   );
+
+  // Vercel BotID (set up in instrumentation-client.ts). Nothing is saved or emailed for bots.
+  // If a real person is ever misjudged, they keep their answers and see "please call us".
+  const { isBot } = await checkBotId();
+  if (isBot) {
+    console.warn("[lead] blocked by BotID");
+    return { status: "unavailable", values };
+  }
   const photoUrls = formData.getAll("photoUrls").map(String);
   const parsed = leadSchema.safeParse({ ...values, photoUrls });
 
@@ -67,7 +77,11 @@ export async function submitLead(
   const emailed = await sendLeadEmail(parsed.data, leadId);
   // Only promise a reply time once the owners have been told. A failed auto-reply doesn't
   // change what the customer sees: their lead is already saved and the owners notified.
-  if (emailed) await sendLeadConfirmation(parsed.data, leadId);
+  if (emailed) {
+    const check = await checkConfirmation(parsed.data.email);
+    if (check.send) await sendLeadConfirmation(parsed.data, leadId);
+    else console.warn("[lead] auto-reply skipped:", check.reason, leadId);
+  }
   return { status: emailed ? "sent" : "saved" };
 }
 
