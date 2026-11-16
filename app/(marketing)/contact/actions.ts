@@ -85,7 +85,16 @@ export async function submitLead(
   return { status: emailed ? "sent" : "saved" };
 }
 
-/** Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts). */
+/**
+ * Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts).
+ * Bots get no signature, so they can't fill our storage. A misjudged person sees "Failed" on the
+ * photo and can still send the form without it.
+ */
 export async function signPhotoUpload() {
+  const { isBot } = await checkBotId();
+  if (isBot) {
+    console.warn("[lead] photo upload blocked by BotID");
+    return null;
+  }
   return signLeadPhotoUpload();
 }
