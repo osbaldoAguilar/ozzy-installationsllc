@@ -38,13 +38,13 @@ export async function submitLead(
     FIELDS.map((f) => [f, String(formData.get(f) ?? "")]),
   );
 
-  // Vercel BotID (set up in instrumentation-client.ts). Nothing is saved or emailed for bots.
-  // If a real person is ever misjudged, they keep their answers and see "please call us".
+  // BotID (see instrumentation-client.ts). A misjudged person keeps their answers and is asked to call.
   const { isBot } = await checkBotId();
   if (isBot) {
     console.warn("[lead] blocked by BotID");
     return { status: "unavailable", values };
   }
+
   const photoUrls = formData.getAll("photoUrls").map(String);
   const parsed = leadSchema.safeParse({ ...values, photoUrls });
 
@@ -75,8 +75,7 @@ export async function submitLead(
 
   // Saved either way; only claim "we've got it" once the owner has actually been emailed.
   const emailed = await sendLeadEmail(parsed.data, leadId);
-  // Only promise a reply time once the owners have been told. A failed auto-reply doesn't
-  // change what the customer sees: their lead is already saved and the owners notified.
+  // Customer auto-reply only after the owner's been told, so we never promise a reply nobody's seen.
   if (emailed) {
     const check = await checkConfirmation(parsed.data.email);
     if (check.send) await sendLeadConfirmation(parsed.data, leadId);
@@ -85,12 +84,9 @@ export async function submitLead(
   return { status: emailed ? "sent" : "saved" };
 }
 
-/**
- * Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts).
- * Bots get no signature, so they can't fill our storage. A misjudged person sees "Failed" on the
- * photo and can still send the form without it.
- */
+/** Signature for uploading one customer photo straight to Cloudinary (see lib/cloudinary-server.ts). */
 export async function signPhotoUpload() {
+  // No signature for bots. A misjudged person sees "Failed" on the photo and can still send.
   const { isBot } = await checkBotId();
   if (isBot) {
     console.warn("[lead] photo upload blocked by BotID");

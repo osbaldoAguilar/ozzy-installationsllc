@@ -1,9 +1,9 @@
 import "server-only";
 
+import { renderLeadConfirmation } from "@/lib/email/confirmation";
+import { escape } from "@/lib/email/escape";
 import { INSTALLATION_TYPE_LABELS, SERVICE_CATEGORIES } from "@/lib/services";
 import type { Lead } from "@/lib/validations/lead";
-
-import { renderLeadConfirmation } from "@/lib/email/confirmation";
 
 // Verified sending domain in Resend (DNS lives at Squarespace). Nobody reads these mailboxes,
 // so every email sets reply_to to a real person.
@@ -18,10 +18,17 @@ function ownerInboxes() {
     .filter(Boolean);
 }
 
-type Email = { from: string; to: string[]; reply_to: string | string[]; subject: string; html: string; text: string };
+type Email = {
+  from: string;
+  to: string[];
+  reply_to: string | string[];
+  subject: string;
+  html: string;
+  text: string;
+};
 
 // Plain REST call (https://resend.com/docs/api-reference/emails/send-email) — no SDK needed.
-// Returns false (never throws). Note: true means Resend accepted it, not that it was delivered.
+// true only means Resend accepted it, not that it was delivered (see Resend → Emails).
 async function sendEmail(email: Email, idempotencyKey: string, label: string): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
@@ -45,9 +52,6 @@ async function sendEmail(email: Email, idempotencyKey: string, label: string): P
     return false;
   }
 }
-
-const escape = (s: string) =>
-  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 function describe(lead: Lead) {
   const service = SERVICE_CATEGORIES[lead.serviceType];

@@ -7,16 +7,9 @@ import { and, count, eq, gte, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { leads } from "@/lib/db/schema";
 
-/*
- * Decides whether a new lead's customer gets the "we received your request" auto-reply.
- *
- * The auto-reply goes to an address typed into a public form, so it could be used to send mail
- * to people who never asked for it. Bots are mostly stopped earlier (BotID + honeypot in the
- * action); these limits cap the damage if one gets through. Skipping the auto-reply never loses
- * a lead: it's already saved and the owners were already emailed.
- *
- * Every check fails closed: if we can't tell, we don't send.
- */
+// Whether a lead gets the auto-reply. BotID stops most bots in the action; these limits cap the
+// damage if one gets through. Skipping never loses a lead (it's saved and the owners are emailed).
+// If a check can't tell, don't send.
 
 // Real traffic is a few leads a week, so these only trip during abuse.
 const PER_ADDRESS_PER_DAY = 1;

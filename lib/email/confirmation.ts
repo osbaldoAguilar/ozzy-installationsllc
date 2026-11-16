@@ -1,19 +1,11 @@
+import { escape } from "@/lib/email/escape";
 import { INSTALLATION_TYPE_LABELS, SERVICE_CATEGORIES, type ServiceType } from "@/lib/services";
 import { SITE } from "@/lib/site";
 import type { Lead } from "@/lib/validations/lead";
 
-/*
- * The "we received your request" email a customer gets after sending the estimate form.
- *
- * Safety rule: the address is whatever someone typed into a public form, so this email only
- * shows things we control: our own copy, the service they picked from a list, and a photo
- * count. The one exception is a first name, and only if it looks like a real name (letters
- * only, short). Their free-text message is never repeated back, so a bot can't use the form
- * to send its own text (links, scams) to a stranger from our domain.
- *
- * Email clients ignore most modern CSS: tables, inline styles, and web-safe font fallbacks
- * are on purpose. Colors match app/globals.css.
- */
+// "We received your request" email to the customer. The address comes from a public form, so
+// we never repeat their message back, only our own copy, their picked service, and a first name
+// that looks like a real name. Email clients ignore most CSS, hence tables and inline styles.
 
 const C = {
   navy: "#003049", // deep-space-blue
@@ -31,13 +23,13 @@ const C = {
 const SERIF = "Fraunces,Georgia,'Times New Roman',serif";
 const SANS = "Figtree,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
 
-// Lives in /public, so it's served from the live site. Absolute URLs are required in email.
+// Email needs a full URL, so the logo loads from the live site.
 const LOGO_URL = `${SITE.url}/brand/logo-gold.png`;
 
 const { coreArea, tripFee, diagnosticFee } = SITE.estimates;
 const INSTALL_ESTIMATE = `Install estimates are free in ${coreArea}. Farther out there's a trip fee based on distance (from $${tripFee}), and we'll tell you the exact amount before we schedule. It's credited to your job if you hire us.`;
 
-/** What happens next, per service. A Record so adding a service fails to compile until it has copy here. */
+// Per service. A Record, so a new service won't compile until it has copy here.
 const NEXT_STEPS: Record<ServiceType, { noun: string; intro: string; steps: string[] }> = {
   fireplace_installation: {
     noun: "fireplace installation",
@@ -92,9 +84,6 @@ export function safeFirstName(fullName: string): string | null {
   if (!/^[\p{L}][\p{L}'’-]{0,19}$/u.test(first)) return null;
   return first === first.toLowerCase() ? first[0].toUpperCase() + first.slice(1) : first;
 }
-
-const escape = (s: string) =>
-  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 export function renderLeadConfirmation(lead: Lead) {
   const category = SERVICE_CATEGORIES[lead.serviceType];
